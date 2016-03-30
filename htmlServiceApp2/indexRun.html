@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<!-- styles -->
+<?!= HtmlService.createHtmlOutputFromFile('styles.css').getContent(); ?>
+
+<div class="content">
+  <div class="block">
+
+  	<label for="code">Pick a supplier</label>
+  	<select id="codes"></select>
+
+  </div>
+
+  <div class="block">
+  	<div id="chose"></div>
+  </div>
+</div>
+
+<!-- javascript -->
+<?!= HtmlService.createHtmlOutputFromFile('render.js').getContent(); ?>
+<?!= HtmlService.createHtmlOutputFromFile('client.js').getContent(); ?>
+<?!= HtmlService.createHtmlOutputFromFile('app.js').getContent(); ?>
+<?!= HtmlService.createHtmlOutputFromFile('mainRun.js').getContent(); ?>

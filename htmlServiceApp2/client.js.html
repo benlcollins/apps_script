@@ -1,0 +1,29 @@
+<script>
+
+// all the code for client-server communication
+
+var Client = (function(client) {
+  client.getData = function(successFunction) {
+  
+  // executes function asynchronously on server
+  // under control of client
+  google.script.run
+  
+  // this will be executed if it fails
+  .withFailureHandler(function(err) {
+    App.reportMessage(err);
+  })
+  
+  // this will be executed if it succeeds
+  .withSuccessHandler(successFunction)
+  
+  // this is what gets executed
+  .getSupplierNames();
+  
+  };
+  
+  return client;
+  
+})(Client || {});
+
+</script>

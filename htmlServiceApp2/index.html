@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<!-- styles -->
+<?!= HtmlService.createHtmlOutputFromFile('styles.css').getContent(); ?>
+
+<div class="content">
+  <div class="block">
+
+  	<label for="code">Pick a supplier</label>
+  	<select id="codes">
+
+  		<?!= getSupplierNames().map(function(d) {
+            var val = d[0]+" - "+d[1];
+  			return "<option value='"+val+"'>"+val+"</option>";
+  		}).join('\n');
+  		?>
+
+  	</select>
+
+  </div>
+
+  <div class="block">
+  	<div id="chose"></div>
+  </div>
+</div>
+
+<!-- javascript -->
+<?!= HtmlService.createHtmlOutputFromFile('main.js').getContent(); ?>

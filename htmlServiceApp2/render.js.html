@@ -1,0 +1,33 @@
+<script>
+
+// rendering happens here
+
+var Render = (function(render) {
+
+  /**
+   * display the selection made on change
+   * @param { object } e returned by change event
+   */
+  render.showChoice = function(e) {
+    document.getElementById("chose").innerHTML = 'You chose ' + e.target.value;
+  };
+  
+  /**
+   * build sector
+   */
+  render.build = function() {
+    
+    // select element is already in place
+    var selector = document.getElementById("codes");
+    
+    // add the options
+    App.globals.data.forEach( function(d) {
+      selector.appendChild(new Option ( "(" +d[0]+ ")" +d[1], d[0]));
+    });
+  };
+  
+  return render;
+  
+})(Render || {});
+
+</script>

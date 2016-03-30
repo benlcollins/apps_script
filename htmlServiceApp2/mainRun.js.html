@@ -1,0 +1,19 @@
+<script>
+
+window.onload = function() {
+  
+  // get the supplier data
+  Client.getData(function(data) {
+  
+    // store the data
+    App.globals.data = data;
+    
+    // render as options
+    Render.build();
+    
+    // add any listeners
+    App.listeners();
+  });
+};
+
+</script>
