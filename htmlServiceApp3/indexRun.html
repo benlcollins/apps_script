@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<!-- styles -->
+<?!= HtmlService.createHtmlOutputFromFile('styles.css').getContent(); ?>
+
+
+<div class="container">
+
+    
+    <h1>RFP Form</h1>
+
+    <div class="divider"></div>
+    <h4>Member Details</h4>
+    
+    <label for="memberName">Member name:</label>
+    <input type="text" name="memberName" required><br>
+
+    <label for="memberPOC">Member P.O.C.:</label>
+    <input type="text" name="memberPOC" required><br>
+
+    <label for="memberEmail">Member email:</label>
+    <input type="email" name="memberEmail" required><br>
+
+    <label for="memberCell">Member cell:</label>
+    <input type="text" name="memberCell" required>
+
+
+    <div class="divider"></div>
+    <h4>Category and Supplier Details</h4>
+    
+    <label for="categories">Pick a category</label>
+    <select id="categories"></select><br>
+
+  	<label for="suppliers">Pick a supplier</label>
+  	<select id="suppliers"></select><br>
+
+    <label for="suppliersPOC">Pick a supplier P.O.C.</label>
+    <select id="suppliersPOC"></select>
+
+
+    <div class="divider"></div>
+    <h4>Date and total budget</h4>
+
+    <label for="projectDate">Project due date</label>
+    <input type="date" name="projectDate">
+
+
+    <div class="divider"></div>
+    <h4>Itemized budget</h4>
+    
+    <label for="choice-itemized">Show itemized costs?</label> 
+    <input type="checkbox" name="choice-itemized" id="choice-show-itemized" required>
+
+    <div class="row">
+      <div class="col s4">
+        <label for="itemDescription">Item Description</label>
+        <input type="text" name="itemDescription">
+      </div>
+      <div class="col s2">
+        <label for="itemQuantity">Item Quantity</label>
+        <input type="number" name="itemQuantity">
+      </div>
+      <div class="col s2">
+        <div class="reveal-if-active">
+          <div>Show itemized costs</div>
+        </div>
+      </div>
+      <div class="col s2">
+        <label for="itemCost">Item Quantity</label>
+        <input type="number" name="itemCost">
+      </div>
+      <div class="col s2">
+        <label for="itemImageFile">Upload item image</label>
+        <input type="file" name="itemImageFile">
+      </div>
+    </div>
+
+
+  <div class="block">
+  	<div id="chose"></div>
+  </div>
+</div>
+
+<!-- javascript -->
+<?!= HtmlService.createHtmlOutputFromFile('render.js').getContent(); ?>
+<?!= HtmlService.createHtmlOutputFromFile('client.js').getContent(); ?>
+<?!= HtmlService.createHtmlOutputFromFile('app.js').getContent(); ?>
+<?!= HtmlService.createHtmlOutputFromFile('mainRun.js').getContent(); ?>

@@ -1,0 +1,36 @@
+<script>
+
+// app related globals
+
+var App = (function(app) {
+
+  /**
+   * report a message
+   * @param { string } messages the message
+   */
+   
+  app.reportMessage = function(message) {
+    document.getElementById("message").innerHTML = message;
+  };
+  
+  /**
+   * any global settings here
+   */
+  
+  app.globals = {};
+  
+  /**
+   * add listeners
+   */
+  
+  app.listeners = function() {
+    document.getElementById("codes").addEventListener("change",function(e) {
+      Render.showChoice(e);
+    });
+  };
+  
+  return app;
+
+})(App || {});
+
+</script>

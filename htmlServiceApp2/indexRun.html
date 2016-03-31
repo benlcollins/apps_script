@@ -4,10 +4,30 @@
 
 <div class="content">
   <div class="block">
-
+    
+    <h4>Choose Supplier</h4>
   	<label for="code">Pick a supplier</label>
   	<select id="codes"></select>
 
+		<h4>Do you want to include itemized costs?</h4>
+    <div>
+      <input type="radio" name="choice-itemized" id="choice-show-itemized" required>
+      <label for="choice-show-itemized">Yes</label>
+    
+      <div class="reveal-if-active">
+        <div>Show itemized costs</div>
+      </div>
+    </div>
+    
+    <div>
+      <input type="radio" name="choice-itemized" id="choice-hide-itemized">
+      <label for="choice-hide-itemized">No</label>
+    
+      <div class="reveal-if-active">
+        <div></div>
+      </div>
+    </div>
+  </div>
   </div>
 
   <div class="block">
