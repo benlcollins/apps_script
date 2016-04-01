@@ -163,7 +163,7 @@ function dataIntoPDF(data) {
   // Convert worksheet to PDF
   var response = UrlFetchApp.fetch(url + url_ext + RFPsheet.getSheetId(), {
       headers: {
-        // need to figure out what is happening with this oauth2 - works with token from my other script, but not one generated in this app
+        // oauth
         'Authorization': 'Bearer ' + token
       }
     });
