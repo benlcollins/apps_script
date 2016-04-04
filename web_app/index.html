@@ -3,132 +3,105 @@
 <?!= HtmlService.createHtmlOutputFromFile('styles.css').getContent(); ?>
 
 
-<div class="content">
-  <div class="block">
+<div class="rfp-page">
+  <h1>Request For Proposal</h1>
+  <div class="form">
+    <form class="rfp-form" id="rfp-form">
+        <!-- member details -->
+        <fieldset>
+            <legend>MEMBER DETAILS</legend>
+            <input type="text" placeholder="Member Name" name="memberName"/>
+            <input type="text" placeholder="Member POC (name)" name="memberPOC"/>
+            <input type="email" placeholder="Member POC email" name="memberEmail"/>
+            <input type="text" placeholder="Cell number" name="memberCell">
+        </fieldset>
 
-  <h3>RFP Form</h3>
+        <!-- supplier details -->
+        <fieldset>
+            <legend>SUPPLIER DETAILS</legend>
+            <select id="categories" name="categories"></select>
+            <select id="suppliers" name="suppliers"></select>
+            <select id="suppliersPOC" name="suppliersPOC"></select>
+            <input type="text" placeholder="Supplier (non-RD)" name="supplierNonRD">
+        </fieldset>
 
-  <form id="rfpForm">
-    
-    <!-- member section of form -->
-    <h5>MEMBER DETAILS</H5>
-    
-    <label for="memberName">Member Name:</label>
-    <input type="text" name="memberName">
-    <br>
-    <label for="memberPOC">Member POC:</label>
-    <input type="text" name="memberPOC">
-    <br>
-    <label for="memberEmail">Member email:</label>
-    <input type="email" name="memberEmail">
-    <br>
-    <label for="memberCell">Member cell number:</label>
-    <input type="text" name="memberCell">
-    <br>
-    
-    <!-- supplier section of form -->
-    <h5>SUPPLIER DETAILS</h5>
-    
-    <select id="categories" name="categories"></select>
-    <br>
-    <select id="suppliers" name="suppliers"></select>
-    <br>
-    <select id="suppliersPOC" name="suppliersPOC"></select>
-    <br>
-    <label for="supplierNonRD">Supplier if non-RD:</label>
-    <input type="text" name="supplierNonRD">
-    <br>
-    
-    <!-- client/brand section of form -->
-    <h5>CLIENT DETAILS</h5>
-    
-    <label for="clientName">Client name:</label>
-    <input type="text" name="clientName">
-    <br>
-    <label for="brandName">Brand name:</label>
-    <input type="text" name="brandName">
-    <br>
-    <label for="programName">Program name:</label>
-    <input type="text" name="programName">
-    <br>
-    <label for="programDesc">Program description:</label>
-    <input type="email" name="programDesc">
-    <br>
-    
-    <!-- deadlines/budget section of form -->
-    <h5>DEADLINES AND BUDGET</h5>
-    
-    <label for="proposalDueDate">Proposal due date:</label>
-    <input type="date" name="proposalDueDate">
-    <br>
-    <label for="programStartDate">Project start date:</label>
-    <input type="date" name="programStartDate">
-    <br>
-    <label for="programEndDate">Project end date:</label>
-    <input type="date" name="programEndDate">
-    <br>
-    <label for="totalBudget">Total budget:</label>
-    <input type="number" name="totalBudget">
-    <br>
-    
-    <!-- itemized section of form -->
-    <h5>ITEMIZED LIST</h5>
-    
-    <!-- item 1 -->
-    <label for="itemName1">Item name:</label>
-    <input type="text" name="itemName1">
-    <br>
-    <label for="itemDesc1">Item description:</label>
-    <input type="email" name="itemDesc1">
-    <br>
-    <label for="itemQuantity1">Item quantity:</label>
-    <input type="number" name="itemQuantity1">
-    <br>
-    <label for="itemCost1">Item cost:</label>
-    <input type="number" name="itemCost1">
-    <br>
-    <!-- upload image through form -->
-    <input type="file" name="updloadFile1">
-    
-    <!-- item 2 -->
-    <br>
-    <label for="itemName2">Item name:</label>
-    <input type="text" name="itemName2">
-    <br>
-    <label for="itemDesc2">Item description:</label>
-    <input type="email" name="itemDesc2">
-    <br>
-    <label for="itemQuantity2">Item quantity:</label>
-    <input type="number" name="itemQuantity2">
-    <br>
-    <label for="itemCost2">Item cost:</label>
-    <input type="number" name="itemCost2">
-    <br>
-    <!-- upload image through form -->
-    <input type="file" name="updloadFile2">
-    
+        <!-- client/brand details -->
+        <fieldset>
+            <legend>CLIENT DETAILS</legend>
+            <input type="text" placeholder="Client name" name="clientName">
+            <input type="text" placeholder="Brand name" name="brandName">
+            <input type="text" placeholder="Program name" name="programName">
+            <textarea placeholder="Program Description" name="programDesc" form="rfp-form"></textarea>
+        </fieldset>
 
-    <br>
-    <input type="submit" value="Submit" 
+        <!-- deadlines/budget section of form -->
+        <fieldset>
+            <legend>DEADLINES AND BUDGET</legend>
+            <label for="proposalDueDate">Proposal due date:</label>
+            <input type="date" name="proposalDueDate">
+            <label for="programStartDate">Project start date:</label>
+            <input type="date" name="programStartDate">
+            <label for="programEndDate">Project end date:</label>
+            <input type="date" name="programEndDate">
+            <label for="totalBudget">Total budget:</label>
+            <input type="number" name="totalBudget">
+        </fieldset>
+
+        <!-- itemized section of form -->
+        <fieldset>
+            <legend>ITEMIZED LIST</legend>
+
+            <!-- item 1 -->
+            <label for="itemName1">Item name:</label>
+            <input type="text" name="itemName1">
+            <br>
+            <label for="itemDesc1">Item description:</label>
+            <input type="text" name="itemDesc1">
+            <br>
+            <label for="itemQuantity1">Item quantity:</label>
+            <input type="number" name="itemQuantity1">
+            <br>
+            <label for="itemCost1">Item cost:</label>
+            <input type="number" name="itemCost1">
+            <br>
+            <!-- upload image through form -->
+            <input type="file" name="updloadFile1">
+            
+            <!-- item 2 -->
+            <br>
+            <label for="itemName2">Item name:</label>
+            <input type="text" name="itemName2">
+            <br>
+            <label for="itemDesc2">Item description:</label>
+            <input type="text" name="itemDesc2">
+            <br>
+            <label for="itemQuantity2">Item quantity:</label>
+            <input type="number" name="itemQuantity2">
+            <br>
+            <label for="itemCost2">Item cost:</label>
+            <input type="number" name="itemCost2">
+            <br>
+            <!-- upload image through form -->
+            <input type="file" name="updloadFile2">
+        </fieldset>
+
+      <input class="button" type="submit" value="Submit" 
            onclick="this.value='Uploading..';
                     google.script.run.withSuccessHandler(formUploaded)
                     .submitRFP(this.parentNode);
                     return false;">
-
-  </form>
-
-  <!-- Message reporting here -->
+      <p class="message">Need help? <a href="http://resourcedepartment.co/" target="_blank">Contact RD</a></p>
+    </form>
   <div id="message"></div>
-
   </div>
-</div>
 
+</div>
 
 
 <!-- Form successfully submitted -->
 <script>
   function formUploaded(status) {
-    document.getElementById('rfpForm').style.display = 'none';
+    document.getElementById('rfp-form').style.display = 'none';
     document.getElementById('message').innerHTML = status;
   }
 </script>

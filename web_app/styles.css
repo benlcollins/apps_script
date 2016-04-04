@@ -1,0 +1,40 @@
+/* * {
+	border: 1px solid red !important;
+} */
+
+.content {
+	padding-left: 20px;
+}
+form {
+  border: 1px solid #c6c7cc;
+  border-radius: 5px;
+  font: 14px/1.4 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  overflow: hidden;
+  width: 60%;
+}
+fieldset {
+  /*border: 1px solid #eee;*/
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+fieldset legend {
+	padding: 10px 0 0 0;
+	color: #395870;
+  font: 16px/1.6 "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+input {
+  border-radius: 3px;
+  font: 14px/1.4 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin: 0;
+  width: 60%;
+}
+.section-info {
+  padding: 5px 20px 0 20px;
+}
+.section-info label {
+  color: #395870;
+  display: block;
+  font-weight: bold;
+  margin: 5px 0 0 0;
+}
