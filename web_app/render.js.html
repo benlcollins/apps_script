@@ -1,0 +1,46 @@
+<script>
+
+// rendering happens here
+
+var Render = (function(render) {
+
+  /**
+   * display the selection made on change
+   * @param { object } e returned by change event
+   */
+  
+  /**
+   * build sector
+   */
+  render.build = function() {
+    
+    // get the category and supplier data
+    var data = App.globals.data;
+    
+    
+    // add the categories options
+    var categorySelector = document.getElementById("categories");
+    data['array1'].forEach( function(d) {
+      categorySelector.appendChild(new Option (d[0], d[0]));
+    });
+    
+    
+    // add the supplier options
+    var supplierSelector = document.getElementById("suppliers");
+    data['array2'].forEach( function(d) {
+      supplierSelector.appendChild(new Option (d[0], d[0]));
+    });
+    
+    
+    // add the supplier POC options
+    var supplierPOCSelector = document.getElementById("suppliersPOC");
+    data['array2'].forEach( function(d) {
+      supplierPOCSelector.appendChild(new Option (d[1], d[1]));
+    });
+  };
+  
+  return render;
+  
+})(Render || {});
+
+</script>
