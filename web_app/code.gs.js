@@ -18,7 +18,7 @@ function submitRFP(form) {
     
     /* recording content to spreadsheet section */
     // set where we write the data - you could write to multiple/alternate destinations
-    var doc = SpreadsheetApp.openById('1kL5RSCuLtpgLDrMWDT5WMWFKVPceTHiNs7EW0ljq_Z4');
+    var doc = SpreadsheetApp.openById('FILE_ID');
     var sheet = doc.getSheetByName('Results');
     var RFPsheet = doc.getSheetByName('RFPasPDF');
     
@@ -110,7 +110,7 @@ function submitRFP(form) {
     
     // get the RFP specifc template sheet
     // RFP template sheet must not be hidden in RFP web app master sheet
-    var destination = SpreadsheetApp.openById('1VIXyIKRUgTCpj7B8_FGE27LV8_jKC0FYIbQXKUwKSr0');
+    var destination = SpreadsheetApp.openById('FILE_ID');
     SpreadsheetApp.setActiveSpreadsheet(destination);
     RFPsheet.copyTo(destination);
     
@@ -145,10 +145,10 @@ function delay(email1,email2,email3) {
 function getAdminInfo() {
   
   // get the Category sheet
-  var categorySheet = SpreadsheetApp.openById('1kL5RSCuLtpgLDrMWDT5WMWFKVPceTHiNs7EW0ljq_Z4').getSheetByName('Categories');
+  var categorySheet = SpreadsheetApp.openById('FILE_ID').getSheetByName('Categories');
   
   // get the Suppliers sheet
-  var supplierSheet = SpreadsheetApp.openById('1kL5RSCuLtpgLDrMWDT5WMWFKVPceTHiNs7EW0ljq_Z4').getSheetByName('Suppliers');
+  var supplierSheet = SpreadsheetApp.openById('FILE_ID').getSheetByName('Suppliers');
   
   // create ranges of categories, supplier names and POC names
   // create category array
@@ -182,7 +182,7 @@ function dataIntoPDF(name,email1,email2) {
   Logger.log("Success");
   
   // get the RFP sheet
-  var doc = SpreadsheetApp.openById('1VIXyIKRUgTCpj7B8_FGE27LV8_jKC0FYIbQXKUwKSr0');
+  var doc = SpreadsheetApp.openById('FILE_ID');
   var RFPsheet = doc.getSheets()[0];
   
   /* Email RFP to relevant parties */
@@ -221,7 +221,7 @@ function dataIntoPDF(name,email1,email2) {
   // Convert worksheet to PDF
   var response = UrlFetchApp.fetch(url + url_ext + RFPsheet.getSheetId(), {
       headers: {
-        // need to figure out what is happening with this oauth2 - works with token from my other script, but not one generated in this app
+        // oauth
         'Authorization': 'Bearer ' + token
       }
     });
