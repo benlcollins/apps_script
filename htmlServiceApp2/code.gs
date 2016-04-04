@@ -61,7 +61,7 @@ function getSupplierNames() {
   
   // if there is not sheet, fall back to identifying the specific spreadsheet
   if (!sheet) {
-    sheet = SpreadsheetApp.openById('1dCKNM3u3N0gINFI3KikjO7f9ZwG8cp0ExJEy_1cI9Ik')
+    sheet = SpreadsheetApp.openById('SHEET_ID')
       .getSheetByName('Sheet1');
   }
   
