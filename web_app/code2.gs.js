@@ -18,7 +18,7 @@ function submitRFP(form) {
     
     /* recording content to spreadsheet section */
     // set where we write the data - you could write to multiple/alternate destinations
-    var doc = SpreadsheetApp.openById('SHEET_ID');
+    var doc = SpreadsheetApp.openById('FILE_ID');
     var sheet = doc.getSheetByName('Results');
     var RFPsheet = doc.getSheetByName('RFPasPDF');
     
@@ -187,7 +187,7 @@ function submitRFP(form) {
     
     // get the RFP specifc template sheet
     // RFP template sheet must not be hidden in RFP web app master sheet
-    var destination = SpreadsheetApp.openById('SHEET_ID');
+    var destination = SpreadsheetApp.openById('FILE_ID');
     SpreadsheetApp.setActiveSpreadsheet(destination);
     RFPsheet.copyTo(destination);
     
@@ -196,8 +196,12 @@ function submitRFP(form) {
     //Logger.log(deletedSheet.getName());
     destination.deleteActiveSheet();
     
+    // copy data into RD Admin sheet
+    var adminSheet = doc.getSheetByName('Admin Data');
+    pasteRDAdminSheet(form,adminSheet);
+    
     // migrate data to RFP form
-    dataIntoPDF(form.memberName,form.memberEmail,form.suppliersPOC);
+    dataIntoPDF(form.memberName,form.memberEmail,form.suppliersPOC,adminSheet);
     
     return "RFP form submitted successfully";
     
@@ -207,15 +211,33 @@ function submitRFP(form) {
   }
 }
 
+// paste data into RD admin sheet
+function pasteRDAdminSheet(form,sheet) {
+  sheet.getRange(sheet.getLastRow()+1,1,1,1).setValue(sheet.getLastRow()-5);
+  sheet.getRange(sheet.getLastRow(),2,1,1).setValue(form.categories);
+  sheet.getRange(sheet.getLastRow(),3,1,1).setValue(form.memberName);
+  sheet.getRange(sheet.getLastRow(),4,1,1).setValue(form.memberPOC);
+  sheet.getRange(sheet.getLastRow(),5,1,1).setValue(form.suppliers);
+  sheet.getRange(sheet.getLastRow(),6,1,1).setValue(form.suppliersPOC);
+  sheet.getRange(sheet.getLastRow(),7,1,1).setValue(form.programName);
+  sheet.getRange(sheet.getLastRow(),9,1,1).setValue(form.clientName);
+  sheet.getRange(sheet.getLastRow(),10,1,1).setValue(form.brandName);
+  sheet.getRange(sheet.getLastRow(),11,1,1).setValue(form.programDesc);
+  sheet.getRange(sheet.getLastRow(),14,1,1).setValue(form.proposalDueDate);
+  sheet.getRange(sheet.getLastRow(),16,1,1).setValue(form.programStartDate);
+  sheet.getRange(sheet.getLastRow(),17,1,1).setValue(form.programEndDate);
+  sheet.getRange(sheet.getLastRow(),19,1,1).setValue(form.totalBudget);
+}
+
 
 // get supplier names
 function getAdminInfo() {
   
   // get the Category sheet
-  var categorySheet = SpreadsheetApp.openById('SHEET_ID').getSheetByName('Categories');
+  var categorySheet = SpreadsheetApp.openById('FILE_ID').getSheetByName('Categories');
   
   // get the Suppliers sheet
-  var supplierSheet = SpreadsheetApp.openById('SHEET_ID').getSheetByName('Suppliers');
+  var supplierSheet = SpreadsheetApp.openById('FILE_ID').getSheetByName('Suppliers');
   
   // create ranges of categories, supplier names and POC names
   // create category array
@@ -240,12 +262,13 @@ function getAdminInfo() {
 }
 
 // transfer data into RFP page and email to relevant parties
-function dataIntoPDF(name,email1,email2) {
+function dataIntoPDF(name,email1,email2,sheet) {
   
-  Logger.log("Success");
+  //Logger.log("Success");
+  
   
   // get the RFP sheet
-  var doc = SpreadsheetApp.openById('SHEET_ID');
+  var doc = SpreadsheetApp.openById('FILE_ID');
   var RFPsheet = doc.getSheets()[0];
   
   /* Email RFP to relevant parties */
@@ -289,11 +312,18 @@ function dataIntoPDF(name,email1,email2) {
   
   // send the email with the PDF attachment
   MailApp.sendEmail(adminEmail, subject, body, {attachments:[pdfResponse]});
-  MailApp.sendEmail(memberEmail, subject, body, {attachments:[pdfResponse]});
-  MailApp.sendEmail(supplierEmail, subject, body, {attachments:[pdfResponse]});
   
-  /* final step - call the method to clear out the RFP form */
-  clearRFP();
+  // send emails to member and supplier
+  try {
+    MailApp.sendEmail(memberEmail, subject, body, {attachments:[pdfResponse]});
+    MailApp.sendEmail(supplierEmail, subject, body, {attachments:[pdfResponse]});
+    sheet.getRange(sheet.getLastRow(),13,1,1).setValue(new Date()); // post date to Admin sheet when emails sent
+  } catch(e) {
+    sheet.getRange(sheet.getLastRow(),13,1,1).setValue("Problem with Agency and/or Supplier Emails"); // post date to Admin sheet when emails sent
+    Logger.log("Error sending emails. " + e);
+  }
+  
+  
 }
 
 
@@ -303,4 +333,7 @@ function clearRFP(sheet) {
   sheet.getRange(3,3,23,1).clearContent();
   sheet.getRange(31,2,10,5).clearContent();
   sheet.getRange(31,7,10,1).clearContent();
+  for (var i = 0; i < 10; i++) {
+    sheet.setRowHeight(31+i, 21);
+  };
 }

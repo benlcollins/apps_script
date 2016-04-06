@@ -22,7 +22,7 @@
             <select id="categories" name="categories"></select>
             <select id="suppliers" name="suppliers"></select>
             <select id="suppliersPOC" name="suppliersPOC"></select>
-            <input type="text" placeholder="Supplier (non-RD)" name="supplierNonRD">
+            <input type="text" placeholder="Name and details of Supplier if non-RD" name="supplierNonRD">
         </fieldset>
 
         <!-- client/brand details -->
@@ -44,51 +44,84 @@
             <label for="programEndDate">Project end date:</label>
             <input type="date" name="programEndDate">
             <label for="totalBudget">Total budget:</label>
-            <input type="number" name="totalBudget">
+            <input type="number" name="totalBudget" placeholder="Total Budget">
         </fieldset>
 
         <!-- itemized section of form -->
         <fieldset>
             <legend>ITEMIZED LIST</legend>
-
-            <!-- item 1 -->
-            <label for="itemName1">Item name:</label>
-            <input type="text" name="itemName1">
-            <br>
-            <label for="itemDesc1">Item description:</label>
-            <input type="text" name="itemDesc1">
-            <br>
-            <label for="itemQuantity1">Item quantity:</label>
-            <input type="number" name="itemQuantity1">
-            <br>
-            <label for="itemCost1">Item cost:</label>
-            <input type="number" name="itemCost1">
-            <br>
-            <!-- upload image through form -->
-            <input type="file" name="updloadFile1">
-            
-            <!-- item 2 -->
-            <br>
-            <label for="itemName2">Item name:</label>
-            <input type="text" name="itemName2">
-            <br>
-            <label for="itemDesc2">Item description:</label>
-            <input type="text" name="itemDesc2">
-            <br>
-            <label for="itemQuantity2">Item quantity:</label>
-            <input type="number" name="itemQuantity2">
-            <br>
-            <label for="itemCost2">Item cost:</label>
-            <input type="number" name="itemCost2">
-            <br>
-            <!-- upload image through form -->
-            <input type="file" name="updloadFile2">
+            <div class="items-container">
+                <div class="item-names">
+                    <label style="text-align: center;">Items</label>
+                    <input type="text" name="itemName1" placeholder="Item name">
+                    <input type="text" name="itemName2" placeholder="Item name">
+                    <input type="text" name="itemName3" placeholder="Item name">
+                    <input type="text" name="itemName4" placeholder="Item name">
+                    <input type="text" name="itemName5" placeholder="Item name">
+                    <input type="text" name="itemName6" placeholder="Item name">
+                    <input type="text" name="itemName7" placeholder="Item name">
+                    <input type="text" name="itemName8" placeholder="Item name">
+                    <input type="text" name="itemName9" placeholder="Item name">
+                    <input type="text" name="itemName10" placeholder="Item name">
+                </div>
+                <div class="item-descriptions">
+                    <label>Description</label>
+                    <input type="text" name="itemDesc1" placeholder="Item description">
+                    <input type="text" name="itemDesc2" placeholder="Item description">
+                    <input type="text" name="itemDesc3" placeholder="Item description">
+                    <input type="text" name="itemDesc4" placeholder="Item description">
+                    <input type="text" name="itemDesc5" placeholder="Item description">
+                    <input type="text" name="itemDesc6" placeholder="Item description">
+                    <input type="text" name="itemDesc7" placeholder="Item description">
+                    <input type="text" name="itemDesc8" placeholder="Item description">
+                    <input type="text" name="itemDesc9" placeholder="Item description">
+                    <input type="text" name="itemDesc10" placeholder="Item description">
+                </div>
+                <div class="item-quantities">
+                    <label>Qty</label>
+                    <input type="number" name="itemQuantity1" placeholder="Qty">
+                    <input type="number" name="itemQuantity2" placeholder="Qty">
+                    <input type="number" name="itemQuantity3" placeholder="Qty">
+                    <input type="number" name="itemQuantity4" placeholder="Qty">
+                    <input type="number" name="itemQuantity5" placeholder="Qty">
+                    <input type="number" name="itemQuantity6" placeholder="Qty">
+                    <input type="number" name="itemQuantity7" placeholder="Qty">
+                    <input type="number" name="itemQuantity8" placeholder="Qty">
+                    <input type="number" name="itemQuantity9" placeholder="Qty">
+                    <input type="number" name="itemQuantity10" placeholder="Qty">
+                </div>
+                <div class="item-costs">
+                    <label>Cost*</label>
+                    <input type="number" name="itemCost1" placeholder="$">
+                    <input type="number" name="itemCost2" placeholder="$">
+                    <input type="number" name="itemCost3" placeholder="$">
+                    <input type="number" name="itemCost4" placeholder="$">
+                    <input type="number" name="itemCost5" placeholder="$">
+                    <input type="number" name="itemCost6" placeholder="$">
+                    <input type="number" name="itemCost7" placeholder="$">
+                    <input type="number" name="itemCost8" placeholder="$">
+                    <input type="number" name="itemCost9" placeholder="$">
+                    <input type="number" name="itemCost10" placeholder="$">
+                </div>
+                <div class="item-uploads">
+                    <label>Upload</label>
+                    <input type="file" name="updloadFile1">
+                    <input type="file" name="updloadFile2">
+                    <input type="file" name="updloadFile3">
+                    <input type="file" name="updloadFile4">
+                    <input type="file" name="updloadFile5">
+                    <input type="file" name="updloadFile6">
+                    <input type="file" name="updloadFile7">
+                    <input type="file" name="updloadFile8">
+                    <input type="file" name="updloadFile9">
+                    <input type="file" name="updloadFile10">
+                </div>
+            </div>
+            <p class="message">* Leave blank if not known</p>
         </fieldset>
 
-      <input class="button" type="submit" value="Submit" 
-           onclick="this.value='Uploading..';
-                    google.script.run.withSuccessHandler(formUploaded)
-                    .submitRFP(this.parentNode);
+      <input class="button" type="submit" value="Submit" id="Submit"
+           onclick="clicked(formUploaded,form);
                     return false;">
       <p class="message">Need help? <a href="http://resourcedepartment.co/" target="_blank">Contact RD</a></p>
     </form>
@@ -98,12 +131,28 @@
 </div>
 
 
-<!-- Form successfully submitted -->
+<!-- google.script.run.withSuccessHandler(formUploaded)
+                    .submitRFP(this.parentNode);
+-->
+
 <script>
+  // cofirm user intends to send form
+  function clicked(formUploaded,form) {
+     if (confirm('Do you want to submit?')) {
+       google.script.run.withSuccessHandler(formUploaded).submitRFP(form);
+       document.getElementById('Submit').value = 'Uploading...';
+     } else {
+       return false;
+     }
+  }
+  
+  // Form successfully submitted
+  Console.log("success");
   function formUploaded(status) {
     document.getElementById('rfp-form').style.display = 'none';
     document.getElementById('message').innerHTML = status;
   }
+  
 </script>
 
 <!-- javascript -->
