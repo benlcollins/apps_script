@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<!-- styles -->
+<head>
+<!--<?!= HtmlService.createHtmlOutputFromFile('styles.css').getContent(); ?>-->
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+<div class="rfp-page">
+  <h1>Request For Proposal</h1>
+  <div class="form">
+    <form class="rfp-form" id="rfp-form">
+        <!-- member details -->
+        <fieldset>
+            <legend>MEMBER DETAILS</legend>
+            <input type="text" placeholder="Member Name" name="memberName"/>
+            <input type="text" placeholder="Member POC (name)" name="memberPOC"/>
+            <input type="email" placeholder="Member POC email" name="memberEmail"/>
+            <input type="text" placeholder="Cell number" name="memberCell">
+        </fieldset>
+
+        <!-- supplier details -->
+        <fieldset>
+            <legend>SUPPLIER DETAILS</legend>
+            <select id="categories" name="categories"></select>
+            <select id="suppliers" name="suppliers"></select>
+            <select id="suppliersPOC" name="suppliersPOC"></select>
+            <input type="text" placeholder="Name and details of Supplier if non-RD" name="supplierNonRD">
+        </fieldset>
+
+        <!-- client/brand details -->
+        <fieldset>
+            <legend>CLIENT DETAILS</legend>
+            <input type="text" placeholder="Client name" name="clientName">
+            <input type="text" placeholder="Brand name" name="brandName">
+            <input type="text" placeholder="Program name" name="programName">
+            <textarea placeholder="Program Description" name="programDesc" form="rfp-form"></textarea>
+        </fieldset>
+
+        <!-- deadlines/budget section of form -->
+        <fieldset>
+            <legend>DEADLINES AND BUDGET</legend>
+            <label for="proposalDueDate">Proposal due date:</label>
+            <input type="date" name="proposalDueDate">
+            <label for="programStartDate">Project start date:</label>
+            <input type="date" name="programStartDate">
+            <label for="programEndDate">Project end date:</label>
+            <input type="date" name="programEndDate">
+            <label for="totalBudget">Total budget:</label>
+            <input type="number" name="totalBudget" placeholder="Total Budget">
+        </fieldset>
+
+        <!-- itemized section of form -->
+        <fieldset>
+            <legend>ITEMIZED LIST</legend>
+            <div class="items-container">
+                <div class="item-names">
+                    <label style="text-align: center;">Items</label>
+                    <input type="text" name="itemName1" placeholder="Item name">
+                    <input type="text" name="itemName2" placeholder="Item name">
+                    <input type="text" name="itemName3" placeholder="Item name">
+                    <input type="text" name="itemName4" placeholder="Item name">
+                    <input type="text" name="itemName5" placeholder="Item name">
+                    <input type="text" name="itemName6" placeholder="Item name">
+                    <input type="text" name="itemName7" placeholder="Item name">
+                    <input type="text" name="itemName8" placeholder="Item name">
+                    <input type="text" name="itemName9" placeholder="Item name">
+                    <input type="text" name="itemName10" placeholder="Item name">
+                </div>
+                <div class="item-descriptions">
+                    <label>Description</label>
+                    <input type="text" name="itemDesc1" placeholder="Item description">
+                    <input type="text" name="itemDesc2" placeholder="Item description">
+                    <input type="text" name="itemDesc3" placeholder="Item description">
+                    <input type="text" name="itemDesc4" placeholder="Item description">
+                    <input type="text" name="itemDesc5" placeholder="Item description">
+                    <input type="text" name="itemDesc6" placeholder="Item description">
+                    <input type="text" name="itemDesc7" placeholder="Item description">
+                    <input type="text" name="itemDesc8" placeholder="Item description">
+                    <input type="text" name="itemDesc9" placeholder="Item description">
+                    <input type="text" name="itemDesc10" placeholder="Item description">
+                </div>
+                <div class="item-quantities">
+                    <label>Qty</label>
+                    <input type="number" name="itemQuantity1" placeholder="Qty">
+                    <input type="number" name="itemQuantity2" placeholder="Qty">
+                    <input type="number" name="itemQuantity3" placeholder="Qty">
+                    <input type="number" name="itemQuantity4" placeholder="Qty">
+                    <input type="number" name="itemQuantity5" placeholder="Qty">
+                    <input type="number" name="itemQuantity6" placeholder="Qty">
+                    <input type="number" name="itemQuantity7" placeholder="Qty">
+                    <input type="number" name="itemQuantity8" placeholder="Qty">
+                    <input type="number" name="itemQuantity9" placeholder="Qty">
+                    <input type="number" name="itemQuantity10" placeholder="Qty">
+                </div>
+                <div class="item-costs">
+                    <label>Cost</label>
+                    <input type="number" name="itemCost1" placeholder="$">
+                    <input type="number" name="itemCost2" placeholder="$">
+                    <input type="number" name="itemCost3" placeholder="$">
+                    <input type="number" name="itemCost4" placeholder="$">
+                    <input type="number" name="itemCost5" placeholder="$">
+                    <input type="number" name="itemCost6" placeholder="$">
+                    <input type="number" name="itemCost7" placeholder="$">
+                    <input type="number" name="itemCost8" placeholder="$">
+                    <input type="number" name="itemCost9" placeholder="$">
+                    <input type="number" name="itemCost10" placeholder="$">
+                </div>
+                <div class="item-uploads">
+                    <label>Upload</label>
+                    <input type="file" name="updloadFile1">
+                    <input type="file" name="updloadFile2">
+                    <input type="file" name="updloadFile3">
+                    <input type="file" name="updloadFile4">
+                    <input type="file" name="updloadFile5">
+                    <input type="file" name="updloadFile6">
+                    <input type="file" name="updloadFile7">
+                    <input type="file" name="updloadFile8">
+                    <input type="file" name="updloadFile9">
+                    <input type="file" name="updloadFile10">
+                </div>
+            </div>
+        </fieldset>
+
+      <input class="button" type="submit" value="Submit" 
+           onclick="this.value='Uploading..';
+                    google.script.run.withSuccessHandler(formUploaded)
+                    .submitRFP(this.parentNode);
+                    return false;">
+      <p class="message">Need help? <a href="http://resourcedepartment.co/" target="_blank">Contact RD</a></p>
+    </form>
+  <div id="message"></div>
+  </div>
+
+</div>
+</body>
+
+<!-- Form successfully submitted -->
+<script>
+  Console.log("success");
+  function formUploaded(status) {
+    document.getElementById('rfp-form').style.display = 'none';
+    document.getElementById('message').innerHTML = status;
+  }
+</script>
+
+<!-- javascript -->
+<?!= HtmlService.createHtmlOutputFromFile('render.js').getContent(); ?>
+<?!= HtmlService.createHtmlOutputFromFile('client.js').getContent(); ?>
+<?!= HtmlService.createHtmlOutputFromFile('app.js').getContent(); ?>
+<?!= HtmlService.createHtmlOutputFromFile('main.js').getContent(); ?>
