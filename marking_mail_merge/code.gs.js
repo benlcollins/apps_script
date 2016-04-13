@@ -73,7 +73,7 @@ function sendToSlack(student) {
   
   // custom slack webhook
   // change the XXXXX's to your own slack webhook. Get it from: 
-  // https://collinstech.slack.com/apps/new/A0F7XDUAZ-incoming-webhooks
+  // https://my.slack.com/services/new/incoming-webhook/
   var url = "https://hooks.slack.com/services/XXXXXXXXX/XXXXXXXXX/XXXXXXXXXXXXXXXXXXXXXXXX";
   
   var payload = {
