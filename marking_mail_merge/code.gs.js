@@ -7,10 +7,14 @@ function sendStudentEmails() {
   // select the range from the Summary sheet
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sheet = ss.getSheetByName("Summary");
-  var range = sheet.getRange("A4:L23").getValues();
-
+  var lastRow = sheet.getLastRow();
+  
+  var range = sheet.getRange(4,1,lastRow-3,13).getValues();
+  //Logger.log(range.length);
+  
+  
   // loop over range and send email
-  for (var i = 0; i < 20; i++) {
+  for (var i = 0; i < range.length; i++) {
     if (range[i][11] == "Yes") {
       
       // send email to student by calling sendEmail function
