@@ -10,6 +10,10 @@ function sendStudentEmails() {
   var lastRow = sheet.getLastRow();
   
   var range = sheet.getRange(4,1,lastRow-3,15).getValues();
+  //Logger.log(range.length);
+  
+  // create timestamp to mark when communication was sent
+  var timestamp = new Date();
   
   // loop over range and send communication if "Yes" option chosen
   for (var i = 0; i < range.length; i++) {
@@ -33,8 +37,7 @@ function sendStudentEmails() {
           sendToSlack(range[i]);
       }
       
-      // create timestamp and paste to final column to show when communication was sent
-      var timestamp = new Date();
+      // add timestamp to final column to show when communication was sent
       sheet.getRange(i+4,15,1,1).setValue(timestamp);
     };
   }
@@ -42,6 +45,7 @@ function sendStudentEmails() {
 
 // function to create and send emails
 function sendEmail(student) {
+  var timestamp = new Date();
   MailApp.sendEmail({
      to: student[1],
      subject: "Feedback for Project",
@@ -63,6 +67,7 @@ function sendEmail(student) {
       "<br><b>Any other comments:</b><br>" +
       student[11] +
       "<br><br>Marked by: " + student[3] +
+      "<br>Date: " + timestamp +
       "<br><br>Sent care of Marking Mail Merge tool built by <a href='http://www.benlcollins.com/'>Ben Collins</a>"
    });
 }
@@ -70,6 +75,7 @@ function sendEmail(student) {
 
 // function to send message to Slack
 function sendToSlack(student) {
+  var timestamp = new Date();
   
   // custom slack webhook
   // change the XXXXX's to your own slack webhook. Get it from: 
@@ -88,6 +94,8 @@ function sendToSlack(student) {
       "\n *Positive notes:* " + student[9] +
       "\n *Areas for improvement:* " + student[10] +
       "\n *Any other comments:* " + student[11] +
+      "\n \n Marked by: " + student[3] +
+      "\n Date: " + timestamp +
       "\n \n Sent care of Marking Mail Merge tool built by <http://www.benlcollins.com/|benlcollins>",
     "icon_emoji": ":inbox_tray:"
   };
@@ -100,4 +108,3 @@ function sendToSlack(student) {
   
   return UrlFetchApp.fetch(url,options);
 }
-  
