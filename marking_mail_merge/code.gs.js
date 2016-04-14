@@ -3,7 +3,7 @@
 * Created by Ben Collins 4/13/16
 */
 
-function sendStudentEmails() {
+function sendStudentScores() {
   // select the range from the Summary sheet
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sheet = ss.getSheetByName("Summary");
