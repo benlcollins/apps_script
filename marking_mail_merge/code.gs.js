@@ -35,6 +35,7 @@ function sendStudentScores() {
           // send email and post to Slack
           sendEmail(range[i]);
           sendToSlack(range[i]);
+          break;
       }
       
       // add timestamp to final column to show when communication was sent
