@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<h1>Second Form</h1>
+<div class="form">
+  <form class="form" id="second-form">
+      <fieldset>
+          <legend>ORIGINAL FORM DETAILS</legend>
+          
+          <!-- output the name from the original form here -->
+          <?!= data ?>
+      </fieldset>
+          
+      <fieldset>
+          <legend>SECOND FORM DETAILS</legend>  
+          <input type="text" placeholder="Second Form Name" name="secondFormName"/>
+      </fieldset>
+      
+    <input class="button" type="submit" value="Submit" id="Submit"
+         onclick="clicked(formUploaded,form);
+                  return false;">
+    <p class="message">Need help? <a href="http://www.benlcollins.com" target="_blank">Contact Ben</a></p>
+  </form>
+<div id="message"></div>
+</div>
+
+<script>
+  // cofirm user intends to send form
+  function clicked(formUploaded,form) {
+     if (confirm('Do you want to submit?')) {
+       // this is where I would run another function on the Google server side with apps script
+       // google.script.run.withSuccessHandler()....
+       document.getElementById('Submit').value = 'Uploading...';
+     } else {
+       return false;
+     }
+  }
+  
+  // Form successfully submitted
+  function formUploaded(status) {
+    document.getElementById('second-form').style.display = 'none';
+    document.getElementById('message').innerHTML = status;
+  }
+  
+</script>
+
