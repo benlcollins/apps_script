@@ -10,18 +10,22 @@ var drawChart = function (data) {
     var width = 700 - margin.right - margin.left;
     var height = 500 - margin.top - margin.bottom;
     
+    // create x scale
     var x = d3.scale.ordinal()
       .domain(data.map(function(d) { return d.category; }))
       .rangeRoundBands([0, width], .1);
 
+    // create y scale
     var y = d3.scale.linear()
       .domain([0,d3.max(data, function(d) { return d.value; })])
       .range([height,0]);
 
+    // create x axis
     var xAxis = d3.svg.axis()
       .scale(x)
       .orient("bottom");
 
+    // create y axis
     var yAxis = d3.svg.axis()
       .scale(y)
       .orient("left");
@@ -58,7 +62,8 @@ var drawChart = function (data) {
     chart.append("g")
       .attr("class", "y axis")
       .call(yAxis);
-      
+    
+    // add refresh functionality to get new data
     d3.select("#refresh")
       .on("click", function() {
         google.script.run
@@ -66,16 +71,10 @@ var drawChart = function (data) {
           .getChartData();
         
         function updateChart(dataset) {
-          //console.log(dataset);
-          //console.log(y(dataset[0].value));
-          //console.log(data[0].value);
           
+          // update x and y domains
           x.domain(dataset.map(function(d) { return d.category; }));
           y.domain([0,d3.max(dataset, function(d) { return d.value; })]);
-          
-          //var chart = d3.select(".chart");
-          //console.log(y(dataset[0].value));
-          //console.log(data[0].value);
           
           // update all the rects
           var bars = chart.selectAll("rect")
