@@ -1,0 +1,167 @@
+<!-- This is the chart javascript -->
+
+<script>
+
+// initial function to create the bar chart
+var drawChart = function (data) {
+    
+    // set width and height and padding of SVG
+    var margin = {top: 20, right: 30, bottom: 20, left: 30};
+    var width = 700 - margin.right - margin.left;
+    var height = 500 - margin.top - margin.bottom;
+    
+    var x = d3.scale.ordinal()
+      .domain(data.map(function(d) { return d.category; }))
+      .rangeRoundBands([0, width], .1);
+
+    var y = d3.scale.linear()
+      .domain([0,d3.max(data, function(d) { return d.value; })])
+      .range([height,0]);
+
+    var xAxis = d3.svg.axis()
+      .scale(x)
+      .orient("bottom");
+
+    var yAxis = d3.svg.axis()
+      .scale(y)
+      .orient("left");
+      
+    // create chart element
+    var chart = d3.select(".chart")
+        .attr("width",width + margin.right + margin.left)
+        .attr("height",height + margin.top + margin.bottom)
+      .append("g")
+        .attr("transform","translate(" + margin.left + "," + margin.top + ")");
+    
+    // add columns
+    chart.selectAll("rect")
+        .data(data)
+        .enter()
+      .append("rect")
+        .attr("x",function(d){
+          return x(d.category);
+        })
+        .attr("y",function(d) {
+          return y(d.value);
+        })
+        .attr("width",x.rangeBand())
+        .attr("height",function(d) {
+          return (y(0) - y(d.value));
+        })
+        .attr("fill", "teal");
+    
+    chart.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+    chart.append("g")
+      .attr("class", "y axis")
+      .call(yAxis);
+      
+    d3.select("#refresh")
+      .on("click", function() {
+        google.script.run
+          .withSuccessHandler(updateChart)
+          .getChartData();
+        
+        function updateChart(dataset) {
+          //console.log(dataset);
+          //console.log(y(dataset[0].value));
+          //console.log(data[0].value);
+          
+          x.domain(dataset.map(function(d) { return d.category; }));
+          y.domain([0,d3.max(dataset, function(d) { return d.value; })]);
+          
+          //var chart = d3.select(".chart");
+          //console.log(y(dataset[0].value));
+          //console.log(data[0].value);
+          
+          // update all the rects
+          var bars = chart.selectAll("rect")
+            .data(dataset);
+            
+          // enter
+          bars.enter()
+            .append("rect")
+              .attr("x",width)
+              .attr("y",function(d) {
+                return y(d.value);
+              })
+              .attr("width",x.rangeBand())
+              .attr("height",function(d) {
+                return (y(0) - y(d.value));
+              })
+              .attr("fill","#800000");
+          
+      //Update…
+		  bars.transition()		//Initiate a transition on all elements in the update selection (all rects)
+			.duration(500)
+              .attr("x",function(d){
+                return x(d.category);
+              })
+              .attr("y",function(d) {
+                return y(d.value);
+              })
+              .attr("width",x.rangeBand())
+              .attr("height",function(d) {
+                return (y(0) - y(d.value));
+              });
+          
+          // exit
+          bars.exit()
+            .transition()
+            .duration(500)
+            .attr("x",width)
+            .remove();
+            
+          // update the x axis labels
+          xAxis = d3.svg.axis()
+            .scale(x)
+            .orient("bottom");
+          
+          chart.selectAll("g.x.axis")
+            .call(xAxis);
+          
+          // update the y axis
+          yAxis = d3.svg.axis()
+            .scale(y)
+            .orient("left");
+            
+          chart.selectAll("g.y.axis")
+            .call(yAxis);
+            
+        };
+      });
+};
+
+// function to call to update the chart
+var updateChart2 = function(data) {
+
+  // set width and height and padding of SVG
+  var margin = {top: 20, right: 30, bottom: 20, left: 30};
+  var width = 800 - margin.right - margin.left;
+  var height = 500 - margin.top - margin.bottom;
+    
+  var chart = d3.select(".chart");
+  var y = d3.scale.linear()
+      .domain([0,d3.max(data, function(d) { return d.value; })])
+      .range([height,0]);
+  
+  // update all the rects
+  chart.selectAll("rect")
+        .data(data)
+        .transition()
+        .duration(1000)
+        .attr("y",function(d) {
+          return y(d.value);
+        })
+        .attr("height",function(d) {
+          return (y(0) - y(d.value));
+        });
+};
+</script>
+
+
+
+

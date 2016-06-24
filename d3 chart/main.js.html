@@ -1,0 +1,11 @@
+<!-- This is the client side javascript -->
+
+<script>
+// start by getting the data
+window.onload = function() {
+  
+  google.script.run
+    .withSuccessHandler(drawChart)
+    .getChartData();
+};
+</script>

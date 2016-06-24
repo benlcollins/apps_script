@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<!-- styles -->
+<?!= HtmlService.createHtmlOutputFromFile("styles.css").getContent(); ?>
+
+<div class="content">
+
+  <h1>d3 chart powered by data from Google Sheet</h1>
+  
+  <input class="button" type="submit" value="Refresh" id="refresh"><br>
+  
+  <svg class="chart"></svg>
+  
+</div>
+
+<!-- javascript -->
+<script src="//d3js.org/d3.v3.min.js"></script>
+<?!= HtmlService.createHtmlOutputFromFile("chart.js").getContent() ?>
+<?!= HtmlService.createHtmlOutputFromFile("main.js").getContent() ?>
