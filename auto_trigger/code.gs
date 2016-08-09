@@ -12,7 +12,6 @@ function onOpen() {
   
   ui.createMenu("Auto Trigger")
     .addItem("Run","runAuto")
-    .addItem("Clear","clearData")
     .addToUi();
 }
 
