@@ -45,7 +45,6 @@ function addNumber() {
   var userProperties = PropertiesService.getUserProperties();
   var loopCounter = Number(userProperties.getProperty('loopCounter'));
   
-  
   // some limit on the loop
   var limit = 3;
   
@@ -68,6 +67,7 @@ function addNumber() {
   }
   else {
     // Log message to confirm loop is finished
+    sheet.getRange(sheet.getLastRow()+1,1).setValue("Finished");
     Logger.log("Finished");
     
     // delete trigger because we've reached the end of the loop
@@ -113,7 +113,10 @@ function clearData() {
   var sheet = ss.getSheetByName('Data');
   
   // clear out the matches and output sheets
-  sheet.getRange(2,1,sheet.getLastRow()-1,1).clearContent();
+  var lastRow = sheet.getLastRow();
+  if (lastRow > 1) {
+    sheet.getRange(2,1,lastRow-1,1).clearContent();
+  }
 }
 
 
