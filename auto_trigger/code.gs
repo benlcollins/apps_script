@@ -41,14 +41,16 @@ function addNumber() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sheet = ss.getSheetByName('Data');
   
-  // get loop counter
+  // get the current loop counter
   var userProperties = PropertiesService.getUserProperties();
   var loopCounter = Number(userProperties.getProperty('loopCounter'));
   
-  // some limit on the loop
-  var limit = 3;
+  // put some limit on the number of loops
+  // could be based on a calculation or user input
+  // using a static number in this example
+  var limit = 2;
   
-  // if loop counter < number of batches
+  // if loop counter < limit number, run the repeatable action
   if (loopCounter < limit) {
     
     // see what the counter value is at the start of the loop
@@ -59,18 +61,22 @@ function addNumber() {
     sheet.getRange(sheet.getLastRow()+1,1).setValue(num);
     
     // increment the properties service counter for the loop
-    loopCounter = loopCounter + 1;
+    loopCounter +=1;
     userProperties.setProperty('loopCounter', loopCounter);
     
     // see what the counter value is at the end of the loop
     Logger.log(loopCounter);
   }
+  
+  // if the loop counter is no longer smaller than the limit number
+  // run this finishing code instead of the repeatable action block
   else {
     // Log message to confirm loop is finished
     sheet.getRange(sheet.getLastRow()+1,1).setValue("Finished");
     Logger.log("Finished");
     
     // delete trigger because we've reached the end of the loop
+    // this will end the program
     deleteTrigger();
     
   }
