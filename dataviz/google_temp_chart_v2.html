@@ -38,7 +38,7 @@
       function drawChart() {
         var queryString = encodeURIComponent('SELECT A, B, C, D, E, F, G, H');
 
-        var url = "https://docs.google.com/spreadsheets/d/18LWeguI5RtJpDzDJu3qkkZ4X22NpxcoyXP7lw2YQPDk/edit?usp=sharing";
+        var url = "<Put your Google Sheet URL here, with editing access enabled>";
 
         var query = new google.visualization.Query(url + '#gid=0&headers=1&tq=' + queryString);
         query.send(handleQueryResponse);
