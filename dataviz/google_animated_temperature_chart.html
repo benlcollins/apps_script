@@ -34,7 +34,7 @@
       var queryString = encodeURIComponent('SELECT * LIMIT 366');
 
       var query = new google.visualization.Query(
-          'https://docs.google.com/spreadsheets/d/1vPAWuJD4UsfOGod3aFJcu034pCqgzrf_jPzHcpCEZgg/gviz/tq?sheet=months2&headers=1&tq=' + queryString);
+          'https://docs.google.com/spreadsheets/d/<SPREADSHEET_ID_GOES_HERE>/gviz/tq?sheet=<SHEET_NAME_GOES_HERE>&headers=1&tq=' + queryString);
       query.send(handleSampleDataQueryResponse);
     }
 
