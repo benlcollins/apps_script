@@ -1,7 +1,20 @@
 <html>
   <head>
     <style>
-
+      .button {
+          background-color: #008CBA; /* Blue */
+          border: none;
+          color: white;
+          padding: 15px 32px;
+          margin-left: 20px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+      }
+      .button:hover {
+          background-color: #66bad5;
+      }
     </style>
     <!--Load the AJAX API-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -84,8 +97,9 @@
             console.log("mod j = " + (j % 2));
             var innerObj = {};
             if ((j % 2) == 0) {
+              var dash = Math.rand
               innerObj["color"] = '#e9e9e9';
-              innerObj["lineDashStyle"] = [14, 2, 2, 7];
+              innerObj["lineDashStyle"] = [4,1];
             }
             else {
               innerObj["color"] = '#ffdbdb';
@@ -134,8 +148,8 @@
           drawChart(view,update_options);
           i++;
           if( i < howManyTimes ){
-              setTimeout( updateChart, 350 );
-              setTimeout( updateYear(i), 350 );
+              setTimeout( updateChart, 80 );
+              setTimeout( updateYear(i), 80 );
           }
       }
       function updateYear(i) {
@@ -163,12 +177,10 @@
 
     <h1 style="font-family: Arial; font-size: 28px; margin-left: 5%; margin-top: 30px;">Temperature trends for Washington D.C. from 1995 to 2015 (using Google's Chart API)</h1>
 
-    <p style="font-family: Arial; font-size: 16px; margin-left: 5%;">Created by Ben Collins. Read more at <a href="http://www.benlcollins.com/javascript/bloomberg-data-viz-chart/">benlcollins.com/javascript/bloomberg-data-viz-chart/</a></p>
+    <p style="font-family: Arial; font-size: 16px; margin-left: 5%;">Created by Ben Collins. Read more at <a href="http://www.benlcollins.com/javascript/animated-temp-chart/">benlcollins.com/javascript/animated-temp-chart/</a>
 
-    <div style="margin-left: 45%;">
-      <button type="button" id="b1">Refresh</button>
-      <div style="color:#ff4c4c; font-size: 64px;" id="chart_year"></div>
-    </div>
+    <button type="button" id="b1" class="button">Refresh</button></p>
+    <div style="color:#ff4c4c; font-size: 64px; text-align: center;" id="chart_year"></div>
 
     <!--Div that will hold the chart-->
     <div id="chart_div"></div>
