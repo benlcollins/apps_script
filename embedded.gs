@@ -38,9 +38,6 @@ function waterfallChart() {
     tempObj["value"] = data[i][1];
     tempObj["tempTotal"] = tempTotal;
     tempObj["tempTotalPrior"] = tempTotalPrior;
-    //tempObj["valueAbs"] = Math.abs(data[i][1]);
-    //tempObj["tempTotalAbs"] = Math.abs(tempTotal);
-    //tempObj["tempTotalPriorAbs"] = Math.abs(tempTotalPrior);
     
     // Endpoints
     if (tempObj.position == 1 || tempObj.position == data.length - 1) {
