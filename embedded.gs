@@ -3,7 +3,7 @@ function onOpen() {
   //set up custom menu
   var ui = SpreadsheetApp.getUi();
   ui.createMenu('Waterfall Chart')
-    .addItem('Waterfall chart','waterfallChart')
+    .addItem('Insert chart...','waterfallChart')
     .addToUi();
 };
 
@@ -87,14 +87,14 @@ function waterfallChart() {
   // get the new data for the chart
   var chartData = sheet.getRange(1, 4, data.length, newData[0].length);
   
-  // make the new funnel chart
+  // make the new waterfall chart
   sheet.insertChart(
     sheet.newChart()
     .addRange(chartData)
     .setChartType(Charts.ChartType.COLUMN)
     .asColumnChart()
     .setStacked()
-    .setOption('title','Waterfall chart')
+    .setOption('title','Waterfall Chart')
     .setLegendPosition(Charts.Position.NONE)
     .setPosition(11,4,0,0)
     .build()
