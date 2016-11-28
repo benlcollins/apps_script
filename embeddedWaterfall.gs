@@ -84,6 +84,7 @@ function waterfallChart() {
     .setChartType(Charts.ChartType.COLUMN)
     .asColumnChart()
     .setStacked()
+    .setColors(['grey','none','green','green','red','red'])
     .setOption('title','Waterfall Chart')
     .setLegendPosition(Charts.Position.NONE)
     .setPosition(lastRow - data.length + 4,lastCol + 4,0,0)
