@@ -42,15 +42,19 @@ function funnelChart() {
       return [(maxVal - d[1]) / 2];
   }));
   
-  //make the new funnel chart
+  // make the new funnel chart
+  // To do: add the data labels to the bars with the annotations option
+  // see: https://developers.google.com/chart/interactive/docs/gallery/barchart#labeling-bars
   sheet.insertChart(
     sheet.newChart()
     .addRange(sheet.getDataRange())
     .setChartType(Charts.ChartType.BAR)
     .asBarChart()
-    .setColors(["none", "red"])
+    .setColors(["none", "#FFA500"])
     .setStacked()
-    .setOption('title','GAS Funnel chart')
+    .setOption("title","GAS Funnel chart")
+    .setOption("hAxis.gridlines.color","none")
+    .setOption("hAxis.textStyle.color","none")
     .setLegendPosition(Charts.Position.NONE)
     .setPosition(2, sheet.getLastColumn()+3,0,0)
     .build()
@@ -76,7 +80,7 @@ function sparklineFunnelChart() {
   // create array to hold sparklines left
   var formulasLeft = [];
   for (j = 0; j < len; j++) {
-    var optionsLeft = '{"charttype","bar";"max",R[-' + j + ']C[-2]; "rtl",true; "color1","red"}';
+    var optionsLeft = '{"charttype","bar";"max",R[-' + j + ']C[-2]; "rtl",true; "color1","#FFA500"}';
     var sparklineFunnelLeft = "=SPARKLINE(R[0]C[-2]," + optionsLeft + ")";
     formulasLeft.push([sparklineFunnelLeft]);
   }
@@ -84,7 +88,7 @@ function sparklineFunnelChart() {
   // create array to hold sparklines right
   var formulasRight = [];
   for (i = 0; i < len; i++) {
-    var optionsRight = '{"charttype","bar";"max",R[-' + i + ']C[-3]; "color1","red"}';
+    var optionsRight = '{"charttype","bar";"max",R[-' + i + ']C[-3]; "color1","#FFA500"}';
     var sparklineFunnelRight = "=SPARKLINE(R[0]C[-3]," + optionsRight + ")";
     formulasRight.push([sparklineFunnelRight]);
   }
@@ -118,7 +122,6 @@ function reptFunnelChart() {
   // create array to hold REPT formulas
   var formulas = [];
   for (j = 0; j < len; j++) {
-    //var optionsLeft = '{"charttype","bar";"max",R[-' + j + ']C[-2]; "rtl",true; "color1","red"}';
     var rept = '=REPT("|",R[0]C[-2] /' + scaleFactor +')';
     formulas.push([rept]);
   }
@@ -128,6 +131,7 @@ function reptFunnelChart() {
   
   // format output range for REPT funnel chart
   reptOutput.setFontFamily("Modak");
+  reptOutput.setFontColor("#FFA500");
   reptOutput.setHorizontalAlignment("center");
   
   // set the column width to 250 for the REPT chart column
