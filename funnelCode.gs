@@ -4,9 +4,9 @@ function onOpen() {
   //set up custom menu
   var ui = SpreadsheetApp.getUi();
   ui.createMenu('Custom Chart')
-    .addItem('Funnel chart','funnelChart')
-    .addItem('Sparkline Funnel chart','sparklineFunnelChart')
-    .addItem('REPT Funnel chart','reptFunnelChart')
+    .addItem('Funnel chart...','funnelChart')
+    .addItem('Sparkline funnel chart...','sparklineFunnelChart')
+    .addItem('REPT funnel chart...','reptFunnelChart')
     .addToUi();
 };
 
