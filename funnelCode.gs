@@ -56,7 +56,7 @@ function funnelChart() {
     .setOption("hAxis.gridlines.color","none")
     .setOption("hAxis.textStyle.color","none")
     .setLegendPosition(Charts.Position.NONE)
-    .setPosition(2, sheet.getLastColumn()+3,0,0)
+    .setPosition(2, sheet.getLastColumn()+2,0,0)
     .build()
   );
 };
