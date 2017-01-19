@@ -1,0 +1,77 @@
+<html>
+  <head>
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawChart);
+
+      // Callback that pulls data from Google Sheet,
+      // instantiates the chart, passes in the data and
+      // draws it.
+      function drawChart() {
+        var queryString = encodeURIComponent('SELECT A, B, C, D, E, F');
+
+        var url = "https://docs.google.com/spreadsheets/d/1wDsvfQuDmMBF_6YjJgO0ER4OYh_u1E1jLEUkfIhGU2c/edit?usp=sharing";
+
+        var query = new google.visualization.Query(url + '#gid=0&headers=1&tq=' + queryString);
+        query.send(handleQueryResponse);
+      }
+
+      function handleQueryResponse(response) {
+        if (response.isError()) {
+          alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+          return;
+        }
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('date', 'Date');
+        data.addColumn('number', 'Min');
+        data.addColumn('number', 'Delta');
+        data.addColumn('number', '2015 temp');
+        data.addColumn('number', '2015 Min');
+        data.addColumn('number', '2015 Max');
+
+        var raw_data = response.getDataTable();
+        var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+        
+        var options = {
+          height: 600,
+          seriesType: 'bars',
+          isStacked: true,
+          series: {
+            0: { type: 'bars', color: 'white', enableInteractivity: false }, // also, this worked to remove tooltip:  tooltip: false
+            1: { type: 'bars', color: '#aa7243' },
+            2: { type: 'line', color: 'black' },
+            3: { type: 'line', color: 'blue', lineWidth: 5 },
+            4: { type: 'line', color: 'red', lineWidth: 5 }
+          },
+          hAxis: { 
+            gridlines: { count: 12, color: 'white' }
+            //format: 'date' 
+          },
+          vAxis: { gridlines: { count: 6, color: 'white' } },
+          legend: 'top'
+        };
+        
+        // draw chart
+        chart.draw(raw_data, options);
+
+      }
+    </script>
+    
+  </head>
+
+  <body>
+
+    <h1 style="font-family: Arial; font-size: 28px; margin-left: 5%; margin-top: 30px;">Tufte's famous New York City Weather Chart recreated using Google's Chart API</h1>
+
+    <p style="font-family: Arial; font-size: 16px; margin-left: 5%;">Created by Ben Collins. Read more at <a href="http://www.benlcollins.com/javascript/tufte-chart-google/">benlcollins.com/javascript/tufte-chart-google/</a></p>
+
+    <!--Div that will hold the chart-->
+    <div id="chart_div"></div>
+</html>

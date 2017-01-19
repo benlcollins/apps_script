@@ -1,0 +1,88 @@
+<html>
+  <head>
+    <style>
+
+    </style>
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+    // Load the Visualization API and the corechart package.
+    google.charts.load('current', {'packages':['corechart']});
+
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.charts.setOnLoadCallback(drawSheetName);
+
+    // Callback that pulls data from Google Sheet,
+    // instantiates the chart, passes in the data and
+    // draws it.
+    function drawSheetName() {
+      var queryString = encodeURIComponent('SELECT A,B,C,D,E LIMIT 10');
+
+      var query = new google.visualization.Query(
+          'https://docs.google.com/spreadsheets/d/1vPAWuJD4UsfOGod3aFJcu034pCqgzrf_jPzHcpCEZgg/gviz/tq?sheet=years&headers=1&tq=' + queryString);
+      query.send(handleSampleDataQueryResponse);
+    }
+
+    function handleSampleDataQueryResponse(response) {
+      if (response.isError()) {
+        alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+        return;
+      }
+
+      var data = response.getDataTable();
+      //var view = new google.visualization.DataView(data);
+      //view.hideColumns([2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22]);
+      //view.hideColumns([2,3]);
+
+      var initOptions = {
+        height: 600,
+        legend: 'top',
+        vAxis: { gridlines: { count: 6, color: 'white' } }
+      };
+
+      var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+      
+      var initView = new google.visualization.DataView(data);
+      initView.hideColumns([2,3,4])  
+
+      chart.draw(initView, initOptions);
+      //debugger;
+      
+      //var view = new google.visualization.DataView(data);
+
+      for (var i=0; i<4; i++) {
+        console.log(i);
+        var j = i;
+        var arr = [0,1,i,i+1];
+        //while (j > 1) {
+          //arr.push(j);
+          var options = {
+            height: 600,
+            legend: 'top',
+            animation:{
+              duration: 1000,
+              easing: 'out'
+            }
+          };
+          //view.hideColumns([2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22]);
+          initView.setColumns(arr);
+          //console.log(view);
+          chart.draw(initView, options);
+          //j--;
+        //}
+        
+        //debugger;
+      }
+      
+      
+    }
+    </script>
+    
+  </head>
+
+  <body>
+    <!--Div that will hold the chart-->
+    <div id="chart_div"></div>
+</html>
+

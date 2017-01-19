@@ -1,0 +1,134 @@
+<html>
+  <head>
+    <style>
+      .overlay-text {
+        text-align: center;
+        color: #2f4f4f; 
+        font-family:'Arial'; 
+        font-size: 14px; 
+        letter-spacing: .21em;
+      }
+      .overlay-january {
+        width: 100px;
+        height: 30px;
+        position: absolute;
+        top: 500px; 
+        /*border: 1px solid red;*/
+        left: 200px; /* chartArea left */
+      }
+      .overlay-february {
+        width: 100px;
+        height: 30px;
+        position: absolute;
+        top: 500px; 
+        border: 1px solid red;
+        left: 340px; /* chartArea left */
+      }
+      .overlay-march {
+        width: 100px;
+        height: 30px;
+        position: absolute;
+        top: 500px; 
+        border: 1px solid red;
+        left: 440px; /* chartArea left */
+      }
+      .overlay-january {
+        width: 120px;
+        height: 30px;
+        position: absolute;
+        top: 500px; 
+        border: 1px solid red;
+        left: 220px; /* chartArea left */
+      }
+      .overlay-january {
+        width: 120px;
+        height: 30px;
+        position: absolute;
+        top: 500px; 
+        border: 1px solid red;
+        left: 220px; /* chartArea left */
+      }
+    </style>
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawGID);
+
+      // Callback that creates and populates a data table,
+      // instantiates the line chart, passes in the data and
+      // draws it.
+      function drawGID() {
+        var queryString = encodeURIComponent('SELECT A, B, C, D, E, F');
+
+        var query = new google.visualization.Query(
+            'https://docs.google.com/spreadsheets/d/1714RFjz6JmJp_wIrHXk6aXTMVBXMWFU5rk5e_GsjLyE/edit?usp=sharing#gid=0&headers=1&tq=' + queryString);
+        query.send(handleQueryResponse);
+      }
+      //https://docs.google.com/spreadsheets/d/1714RFjz6JmJp_wIrHXk6aXTMVBXMWFU5rk5e_GsjLyE/edit?usp=sharing
+
+      function handleQueryResponse(response) {
+        if (response.isError()) {
+          alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+          return;
+        }
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('date', 'Date');
+        data.addColumn('number', 'Min');
+        data.addColumn('number', 'Delta');
+        data.addColumn('number', '2015 temp');
+        data.addColumn('number', '2015 Min');
+        data.addColumn('number', '2015 Max');
+        //data.addRows(response);
+
+        var raw_data = response.getDataTable();
+        var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+        var options = {
+          height: 600,
+          seriesType: 'bars',
+          isStacked: true,
+          series: {
+            0: { type: 'bars', color: 'white', enableInteractivity: false }, // also, this worked to remove tooltip:  tooltip: false
+            1: { type: 'bars', color: '#aa7243' },
+            2: { type: 'line', color: 'black' },
+            3: { type: 'line', color: 'blue', lineWidth: 5 },
+            4: { type: 'line', color: 'red', lineWidth: 5 }
+          },
+          hAxis: { 
+            gridlines: { count: 0 }
+            //format: 'date' 
+          },
+          vAxis: { gridlines: { count: 2 } },
+          legend: 'top'
+        };
+        chart.draw(raw_data, options);
+      }
+    </script>
+  </head>
+
+  <body>
+    <!--Div that will hold the chart-->
+    <div id="chart_div"></div>
+
+    <!--Div that will hold the month overlays -->
+    <div class="overlay-text">
+      <div class="overlay-january">January</div>
+      <div class="overlay-february">February</div>
+      <div class="overlay-march">March</div>
+      <div class="overlay-april">April</div>
+      <div class="overlay-may">May</div>
+      <div class="overlay-june">June</div>
+      <div class="overlay-july">July</div>
+      <div class="overlay-august">August</div>
+      <div class="overlay-september">September</div>
+      <div class="overlay-october">October</div>
+      <div class="overlay-november">November</div>
+      <div class="overlay-december">December</div>
+    </div>
+  </body>
+</html>

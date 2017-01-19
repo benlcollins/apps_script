@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawGID);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawGID() {
+        var queryString = encodeURIComponent('SELECT A, B, C');
+
+        var query = new google.visualization.Query(
+            'https://docs.google.com/spreadsheets/d/1ViigocK5BKPDg4cK-djOAht2phj_fRucoAoFeCw_vio/edit#gid=0&headers=1&tq=' + queryString);
+        query.send(handleQueryResponse);
+      }
+
+      function handleQueryResponse(response) {
+        if (response.isError()) {
+          alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+          return;
+        }
+
+        var data = response.getDataTable();
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+        var options_stacked = {
+          height: 400,
+          isStacked: true,
+          colors: ['white','#aa7243']
+        };
+        chart.draw(data, options_stacked);
+      }
+    </script>
+  </head>
+
+  <body>
+    <!--Div that will hold the pie chart-->
+    <div id="chart_div"></div>
+  </body>
+</html>
