@@ -1,3 +1,12 @@
+function onOpen() {
+  
+  var ui = SpreadsheetApp.getUi();
+  // Or DocumentApp or FormApp.
+  ui.createMenu('Index Menu')
+      .addItem('Create Index', 'createIndex')
+      .addToUi();
+}
+
 function createIndex() {
   
   // The code below logs the ID for the active spreadsheet.
@@ -37,6 +46,6 @@ function createIndex() {
   indexSheet.getRange(1,1).setValue('Workbook Index').setFontWeight('bold');
   indexSheet.getRange(3,1,indexSheetNames.length,1).setValues(indexSheetNames);
   indexSheet.getRange(3,2,indexSheetIds.length,1).setFormulas(indexSheetIds);
-  
-  
+    
 }
+
