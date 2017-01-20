@@ -1,16 +1,13 @@
 function onOpen() {
   
   var ui = SpreadsheetApp.getUi();
-  // Or DocumentApp or FormApp.
+
   ui.createMenu('Index Menu')
       .addItem('Create Index', 'createIndex')
       .addToUi();
 }
 
 function createIndex() {
-  
-  // The code below logs the ID for the active spreadsheet.
-  Logger.log(SpreadsheetApp.getActiveSpreadsheet().getId()); 
   
   // Log all the different sheet IDs
   var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -29,23 +26,33 @@ function createIndex() {
                         + '")']);
   });
   
-  // check if sheet called index already exists
+  // check if sheet called sheet called already exists
+  // if no index sheet exists, create one
   if (ss.getSheetByName('index') == null) {
     
     var indexSheet = ss.insertSheet('Index',0);
     
   }
+  // if sheet called index does exist, prompt user for a different name or option to cancel
   else {
     
     var indexNewName = Browser.inputBox('The name Index is already being used, please choose a different name:', 'Please choose another name', Browser.Buttons.OK_CANCEL);
-    var indexSheet = ss.insertSheet(indexNewName,0);
+    
+    if (indexNewName != 'cancel') {
+      var indexSheet = ss.insertSheet(indexNewName,0);
+    }
+    else {
+      Browser.msgBox('No index sheet created');
+    }
     
   }
   
   // add sheet title, sheet names and hyperlink formulas
-  indexSheet.getRange(1,1).setValue('Workbook Index').setFontWeight('bold');
-  indexSheet.getRange(3,1,indexSheetNames.length,1).setValues(indexSheetNames);
-  indexSheet.getRange(3,2,indexSheetIds.length,1).setFormulas(indexSheetIds);
+  if (indexSheet) {
+    indexSheet.getRange(1,1).setValue('Workbook Index').setFontWeight('bold');
+    indexSheet.getRange(3,1,indexSheetNames.length,1).setValues(indexSheetNames);
+    indexSheet.getRange(3,2,indexSheetIds.length,1).setFormulas(indexSheetIds);
+  }
     
 }
 
