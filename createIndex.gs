@@ -4,27 +4,22 @@ function onOpen() {
 
   ui.createMenu('Index Menu')
       .addItem('Create Index', 'createIndex')
+      .addItem('Update Index', 'updateIndex')
       .addToUi();
 }
 
+
+// function to create the index
 function createIndex() {
   
-  // Log all the different sheet IDs
+  // Get all the different sheet IDs
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sheets = ss.getSheets();
   
-  var indexSheetNames = [];
-  var indexSheetIds = [];
+  var namesArray = sheetNamesIds(sheets);
   
-  // create array of sheet names and sheet gids
-  sheets.forEach(function(sheet){
-    indexSheetNames.push([sheet.getSheetName()]);
-    indexSheetIds.push(['=hyperlink("https://docs.google.com/spreadsheets/d/1D7nX_l3wlNEAoBuEyde5daQgMy56uPMco0aVs51ibVY/edit#gid=' 
-                        + sheet.getSheetId() 
-                        + '","' 
-                        + sheet.getSheetName() 
-                        + '")']);
-  });
+  var indexSheetNames = namesArray[0];
+  var indexSheetIds = namesArray[1];
   
   // check if sheet called sheet called already exists
   // if no index sheet exists, create one
@@ -49,10 +44,60 @@ function createIndex() {
   
   // add sheet title, sheet names and hyperlink formulas
   if (indexSheet) {
-    indexSheet.getRange(1,1).setValue('Workbook Index').setFontWeight('bold');
-    indexSheet.getRange(3,1,indexSheetNames.length,1).setValues(indexSheetNames);
-    indexSheet.getRange(3,2,indexSheetIds.length,1).setFormulas(indexSheetIds);
+    
+    printIndex(indexSheet,indexSheetNames,indexSheetIds);
+
   }
     
 }
 
+
+
+// function to update the index, assumes index is the first sheet in the workbook
+function updateIndex() {
+  
+  // Get all the different sheet IDs
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheets = ss.getSheets();
+  var indexSheet = sheets[0];
+  
+  var namesArray = sheetNamesIds(sheets);
+  
+  var indexSheetNames = namesArray[0];
+  var indexSheetIds = namesArray[1];
+  
+  printIndex(indexSheet,indexSheetNames,indexSheetIds);
+}
+
+
+// function to print out the index
+function printIndex(sheet,names,formulas) {
+  
+  sheet.clearContents();
+  
+  sheet.getRange(1,1).setValue('Workbook Index').setFontWeight('bold');
+  sheet.getRange(3,1,names.length,1).setValues(names);
+  sheet.getRange(3,2,formulas.length,1).setFormulas(formulas);
+  
+}
+
+
+// function to create array of sheet names and sheet ids
+function sheetNamesIds(sheets) {
+  
+  var indexSheetNames = [];
+  var indexSheetIds = [];
+  
+  // create array of sheet names and sheet gids
+  sheets.forEach(function(sheet){
+    indexSheetNames.push([sheet.getSheetName()]);
+    indexSheetIds.push(['=hyperlink("https://docs.google.com/spreadsheets/d/1D7nX_l3wlNEAoBuEyde5daQgMy56uPMco0aVs51ibVY/edit#gid=' 
+                        + sheet.getSheetId() 
+                        + '","' 
+                        + sheet.getSheetName() 
+                        + '")']);
+  });
+  
+  return [indexSheetNames, indexSheetIds];
+  
+}
