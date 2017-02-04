@@ -23,6 +23,42 @@ function dataOb() {
   // make it the active sheet
   thisWorkbook.setActiveSheet(newSheet);
   
+  // get all the data
+  var allData = newSheet.getDataRange().getValues();
   
+  // get the header row
+  var headers = allData.shift();
+  Logger.log(headers);
+  
+  var headerIndexes = indexifyHeaders(headers);
+  Logger.log(headerIndexes);
   
 }
+
+
+
+
+function indexifyHeaders(headers) {
+  
+  var index = 0;
+  return headers.reduce (function (p,c) {
+    
+    // skip column headings with blank headers
+    if (c) {
+      // throw error if duplicate header names
+      if (p.hasOwnProperty (c)) {
+        throw new Error('Duplicate column name ' + c);
+      }
+      p[c] = index;
+    }
+    index++;
+    return p;
+  },{});
+}
+  
+  
+  
+  
+  
+  
+  
