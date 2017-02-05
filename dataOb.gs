@@ -72,8 +72,42 @@ function dataOb() {
   var shortcutData = objectifyRange(newSheet.getDataRange());
   Logger.log(JSON.stringify(shortcutData));
   
+  // clear the sheet
+  newSheet.clear();
+  
+  // write back modified data (minus the blank column)
+  var newData = datifyObjects(shortcutData.filter(function(row) {
+    return row['annual flights'] > 4500;
+  }));
+  
+  // write out the data
+  newSheet.getRange(
+    1,1,newData.length,newData[0].length
+  ).setValues(newData);
   
 }
+
+/**
+ * turn objectified data into sheet writable data
+ * @param {[object]} dataObjects an array of objectified sheet data
+ * @return {[[]]} a data array in sheet format
+ */
+function datifyObjects (dataObjects) {
+  
+  // get the headers from a row of objects
+  var headers = Object.keys(dataObjects[0]);
+  
+  // turn the data back to an array and concat to header
+  return [headers].concat(dataObjects.map(function(row) {
+    return headers.map(function(cell) {
+      return row[cell];
+    });
+  }));
+}
+
+
+
+
 
 /**
  * create an object from a range input
