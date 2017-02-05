@@ -31,16 +31,16 @@ function dataOb() {
   
   // get the header row
   var headers = allData.shift();
-  Logger.log(headers);
+  //Logger.log(headers);
   
   var headerIndexes = indexifyHeaders(headers);
-  Logger.log(JSON.stringify(headerIndexes));
+  //Logger.log(JSON.stringify(headerIndexes));
   
   // check index still works
   allData.forEach(function(row) {
-    Logger.log(row[headerIndexes.carrier]);
-    Logger.log(row[headerIndexes.name]);
-    Logger.log(row[headerIndexes["annual flights"]]);
+    //Logger.log(row[headerIndexes.carrier]);
+    //Logger.log(row[headerIndexes.name]);
+    //Logger.log(row[headerIndexes["annual flights"]]);
   });
   
   // insert a new column 
@@ -54,23 +54,55 @@ function dataOb() {
   
   // make a new index header map
   var headerIndexes = indexifyHeaders(headers);
-  Logger.log(headerIndexes);
+  //Logger.log(headerIndexes);
   
   // check index still works
   allData.forEach(function(row) {
-    Logger.log(row[headerIndexes.carrier]);
-    Logger.log(row[headerIndexes.name]);
-    Logger.log(row[headerIndexes["annual flights"]]);
+    //Logger.log(row[headerIndexes.carrier]);
+    //Logger.log(row[headerIndexes.name]);
+    //Logger.log(row[headerIndexes["annual flights"]]);
   });
   
   // convert all the data to an object
   var dataAsObjects = objectifyData (headerIndexes , allData);
-  Logger.log(JSON.stringify(dataAsObjects));
+  //Logger.log(JSON.stringify(dataAsObjects));
   
   
+  // combine both
+  var shortcutData = objectifyRange(newSheet.getDataRange());
+  Logger.log(JSON.stringify(shortcutData));
   
   
 }
+
+/**
+ * create an object from a range input
+ * @param {[*]} range a range of data
+ * @return {object} an object where the props are names & values are indexes
+ */
+function objectifyRange(range) {
+  
+  var allData = range.getValues();
+  //Logger.log(allData);
+  
+  // [[carrier, , name, annual flights], [8P, , Pacific Air Coast, 4603.0], [9R, , Satena, 9849.0], [AC, , Air Canada, 663.0], [AY, , Finnair, 4083.0]]
+  
+  // extract the new header row
+  var headers = allData.shift();
+  
+  // make a new index header map
+  var headerIndexes = indexifyHeaders(headers);
+  
+  // convert all the data to an object and return
+  return objectifyData (headerIndexes , allData);
+  
+}
+
+
+//  [{"carrier":"8P","name":"Pacific Air Coast","annual flights":4603},{"carrier":"9R","name":"Satena","annual flights":9849},
+// {"carrier":"AC","name":"Air Canada","annual flights":663},{"carrier":"AY","name":"Finnair","annual flights":4083}]
+
+
 
 
 /**
