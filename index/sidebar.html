@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+Hello, world! 
+
+<table>
+<?!= getSheetNames().map(function(d) {
+    return "<tr><td>" + d[0] + "</td><td>" + d[1] + "</td></tr>";
+    }); ?>
+</table>
+
+<input type="button" value="Close" onclick="google.script.host.close()" />
+
+
+<!-- Javascript -->
+<?!= HtmlService.createHtmlOutputFromFile('sidebarContent.js').getContent(); ?>

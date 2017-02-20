@@ -1,0 +1,15 @@
+<script>
+
+google.script.run
+        .withSuccessHandler(showRecord)
+        .withFailureHandler(
+          function(error) {
+            
+          })
+        .getRecord();
+        
+function showRecord() {
+  Browser.msgBox("Working");
+};
+
+</script>
