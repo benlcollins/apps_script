@@ -46,12 +46,5 @@ function sheetNamesIds(sheets) {
 }
 
 /* TO DO:
- * have menu in Google Sheet to show/hide index
- * automatically create new index when show is run, so it's always up-to-date
- * collect all sheet names into an array
- * pass array of sheet names to HTML service sidebar
- * display all sheet names in HTML sidebar
- * convert all sheet names in sidebar to hyperlinks to different sheets
- * have close button in sidebar
  * add basic CSS styling
  */
