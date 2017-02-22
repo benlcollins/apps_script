@@ -2,11 +2,11 @@
 <h1>Index of all sheets in this workbook:</h1>
 <input type="button" value="Close" onclick="google.script.host.close()" />
 
-<table>
+<ol>
 <?!= getSheetNames().map(function(d) {
-    return "<tr><td><a href='https://docs.google.com/spreadsheets/d/  YOUR SHEET ID IN HERE  /edit#gid=" + d[1] + "' target='_blank'>" + d[0] + "</a></td></tr>";
-    }); ?>
-</table>
+    return "<li><a href='https://docs.google.com/spreadsheets/d/  YOUR SHEET ID IN HERE  /edit#gid=" + d[1] + "' target='_blank'>" + d[0] + "</a></li>";
+    }).join(''); ?>
+</ol>
 
 <!-- Javascript -->
 <?!= HtmlService.createHtmlOutputFromFile('sidebarContent.js').getContent(); ?>

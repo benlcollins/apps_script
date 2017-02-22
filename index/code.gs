@@ -1,4 +1,6 @@
-// menu
+/**
+ * menu
+ */
 function onOpen() {
   SpreadsheetApp.getUi() // Or DocumentApp or FormApp.
       .createMenu('Sidebar Menu')
@@ -6,7 +8,9 @@ function onOpen() {
       .addToUi();
 }
 
-// show sidebar
+/**
+ * show sidebar
+ */
 function showSidebar() {
   var ui = HtmlService.createTemplateFromFile('sidebar.html')
       .evaluate()
@@ -40,11 +44,7 @@ function sheetNamesIds(sheets) {
     indexOfSheets.push([sheet.getSheetName(),sheet.getSheetId()]);
   });
   
-  Logger.log(indexOfSheets);
+  //Logger.log(indexOfSheets);
   return indexOfSheets;
   
 }
-
-/* TO DO:
- * add basic CSS styling
- */
