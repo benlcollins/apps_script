@@ -10,14 +10,15 @@ function valueNotification() {
   var valueSheet = ss.getSheetByName('Sheet1');
   var emailSheet = ss.getSheetByName('Emails');
   
+  // get current value from sheet
   var value = valueSheet.getRange(1,1).getValue();
   
-  var emails = emailSheet.getRange(1,1,emailSheet.getLastRow(),1).getValues()[0];
-  Logger.log(value);
-  Logger.log(emails);
+  // get list of emails from sheet
+  var emails = emailSheet.getRange(1,1,emailSheet.getLastRow(),1).getValues();
+  var emailString = [].concat.apply([], emails).join();
   
   if (value > THRESHOLD_VALUE) {
-    sendEmail(value,emails);
+    sendEmail(value,emailString);
   }
 }
 
@@ -26,8 +27,9 @@ function sendEmail(value,emails) {
   
   // get current date
   var now = new Date();
-  Logger.log(now);
-  Logger.log(value);
-  Logger.log(emails);
+  
+  // send emails to recipients listed in sheet
+  GmailApp.sendEmail(emails, "Value changed in Value notification Sheet: " + now, "New value is: "+
+                     value + ", which is above the threshold value of: " + THRESHOLD_VALUE)
   
 }
