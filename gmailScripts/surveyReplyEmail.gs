@@ -1,3 +1,11 @@
+function onOpen() {
+  var ui = SpreadsheetApp.getUi();
+   
+   ui.createMenu("Send Emails")
+     .addItem("Send Email Batch","createEmail")
+     .addToUi();
+ }
+
 function createEmail() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sheet = ss.getActiveSheet();
@@ -10,7 +18,7 @@ function createEmail() {
   var customReply = sheet.getRange(2,15,sheet.getLastRow()-1,1).getValues();
   var status = sheet.getRange(2,16,sheet.getLastRow()-1,1).getValues();
   
-  for (var i = 0; i < 8; i++) {
+  for (var i = 0; i < emailAddresses.length; i++) {
     if (group[i][0] === 1 && !status[i][0]) {
       var   htmlBody = 
           "Hi " + names[i] +",<br><br>" +
@@ -44,7 +52,7 @@ function sendEmail(recipient,body) {
   Logger.log(recipient[0]);
   
   GmailApp.sendEmail(
-    "benlcollins@gmail.com",
+    recipient[0],
     "Thanks for responding about the new course!", 
     "",
     {
