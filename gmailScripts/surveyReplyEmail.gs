@@ -20,12 +20,79 @@ function createEmailNew() {
   
   // get the header row
   var headers = allData.shift();
-  Logger.log(headers);
+  //Logger.log(headers);
   
   // create header index map
   var headerIndexes = indexifyHeaders(headers);
-  Logger.log(JSON.stringify(headerIndexes));
+  //Logger.log(JSON.stringify(headerIndexes));
   
+  /*
+  // test to see if header index works
+  allData.forEach(function(row) {
+    //Logger.log(row[headerIndexes["What's your name?"]]);
+  });
+  
+  var emailAddresses = [];
+  allData.forEach(function(row) {
+    emailAddresses.push(row[headerIndexes["Email Address"]]);
+  });
+  Logger.log(emailAddresses);
+  */
+  
+  allData.forEach(function(row,i) {
+    if (row[headerIndexes["Reply Group"]] === 1 && !row[headerIndexes["Time replied / Status"]]) {
+      var   htmlBody = 
+          "Hi " + row[headerIndexes["What's your name?"]] +",<br><br>" +
+            "Thanks for responding and letting me know you're interested in the new course!<br><br>" +
+              "<em>Your response:<br><br>" +
+                row[headerIndexes["Why do you want to take this course?"]] + "<br><br>" +
+                  row[headerIndexes["Any other information you'd like to share with me? I'm happy to hear from you..."]] + "</em><br><br>" +
+                    row[headerIndexes["My Reply"]] + "<br><br>" +
+                      "I've had over 250 people respond, which is crazy! So I'll be in touch with a small group about the testing program soon, \n" +
+                        "but if you don't hear from me regarding that, I'll still have a special offer for you when the course launches to say thanks!<br><br>" + 
+                          "Anything specific you'd like to see in this Data Cleaning and Pivot Table course? Let me know!<br><br>" +
+                            "Have a great day.<br><br>" +
+                              "Thanks,<br>" +
+                                "Ben<br><br>" +
+                                  "P.S. I sent you this email directly from my Google Sheet, with a bit of help from Apps Script, using tricks from <a href='http://www.benlcollins.com/spreadsheets/marking-template/'>this tutorial</a>.";
+      
+      Logger.log(htmlBody);
+    
+    }
+    else {
+      //Logger.log("No");
+    }
+  });
+                  
+    
+    /*
+    if (row[headerIndexes["What's your name?"]][i][0] === 1 && !row[headerIndexes["What's your name?"]][i][0]) {
+      var   htmlBody = 
+          "Hi " + row[headerIndexes["What's your name?"]][i] +",<br><br>" +
+            "Thanks for responding and letting me know you're interested in the new course!<br><br>" +
+              "<em>Your response:<br><br>" +
+                //whys[i] + "<br><br>" +
+                  //info[i] + "</em><br><br>" +
+                    //customReply[i] + "<br><br>" +
+                      "I've had over 250 people respond, which is crazy! So I'll be in touch with a small group about the testing program soon, \n" +
+                        "but if you don't hear from me regarding that, I'll still have a special offer for you when the course launches to say thanks!<br><br>" + 
+                          "Anything specific you'd like to see in this Data Cleaning and Pivot Table course? Let me know!<br><br>" +
+                            "Have a great day.<br><br>" +
+                              "Thanks,<br>" +
+                                "Ben<br><br>" +
+                                  "P.S. I sent you this email directly from my Google Sheet, with a bit of help from Apps Script, using tricks from <a href='http://www.benlcollins.com/spreadsheets/marking-template/'>this tutorial</a>.";
+      
+      //var timestamp = sendEmail(emailAddresses[i],htmlBody); 
+      var timestamp = newDate();
+      //sheet.getRange(i+2, 20).setValue(timestamp);
+    }
+    else if (!status[i][0]){
+      //sheet.getRange(i+2, 20).setValue("No email sent");
+    }
+    else {
+      // catch all here
+    }
+    */
   
 }
   
