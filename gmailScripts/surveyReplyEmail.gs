@@ -20,14 +20,42 @@ function createEmailNew() {
   
   // get the header row
   var headers = allData.shift();
-  
   Logger.log(headers);
   
-  
+  // create header index map
+  var headerIndexes = indexifyHeaders(headers);
+  Logger.log(JSON.stringify(headerIndexes));
   
   
 }
   
+
+// create index from column headings
+function indexifyHeaders(headers) {
+  
+  var index = 0;
+  return headers.reduce (
+    // callback function
+    function(p,c) {
+    
+      //skip cols with blank headers
+      if (c) {
+        // can't have duplicate column names
+        if (p.hasOwnProperty(c)) {
+          throw new Error('duplicate column name: ' + c);
+        }
+        p[c] = index;
+      }
+      index++;
+      return p;
+    },
+    {} // initial value for reduce function to use as first argument
+  );
+}
+
+
+
+
 function createEmail() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sheet = ss.getActiveSheet();
