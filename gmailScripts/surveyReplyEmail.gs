@@ -2,12 +2,32 @@ function onOpen() {
   var ui = SpreadsheetApp.getUi();
    
    ui.createMenu("Send Emails")
-     .addItem("Send Email Batch","createEmail")
+     .addItem("Send Email Batch","createEmailNew")
      .addToUi();
  }
 
 // change the range references to work with column heading names, instead of absolute references so they don't break when I move them around
 
+function createEmailNew() {
+  var thisWorkbook = SpreadsheetApp.getActiveSpreadsheet();
+  var thisSheet = thisWorkbook.getActiveSheet();
+  
+  // get the data range of the sheet
+  var allRange = thisSheet.getDataRange();
+  
+  // get all the data in this range
+  var allData = allRange.getValues();
+  
+  // get the header row
+  var headers = allData.shift();
+  
+  Logger.log(headers);
+  
+  
+  
+  
+}
+  
 function createEmail() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sheet = ss.getActiveSheet();
@@ -37,7 +57,7 @@ function createEmail() {
                                 "Ben<br><br>" +
                                   "P.S. I sent you this email directly from my Google Sheet, with a bit of help from Apps Script, using tricks from <a href='http://www.benlcollins.com/spreadsheets/marking-template/'>this tutorial</a>.";
       
-      var timestamp = sendEmail(emailAddresses[i],htmlBody);
+      var timestamp = sendEmail(emailAddresses[i],htmlBody);      
       sheet.getRange(i+2, 20).setValue(timestamp);
     }
     else if (!status[i][0]){
@@ -54,7 +74,8 @@ function sendEmail(recipient,body) {
   Logger.log(recipient[0]);
   
   GmailApp.sendEmail(
-    recipient[0],
+    //recipient[0],
+    "benlcollins@gmail.com", // use for testing
     "Thanks for responding about the new course!", 
     "",
     {
