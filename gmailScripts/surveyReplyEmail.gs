@@ -1,3 +1,4 @@
+// add menu to Sheet
 function onOpen() {
   var ui = SpreadsheetApp.getUi();
    
@@ -6,7 +7,10 @@ function onOpen() {
      .addToUi();
  }
 
-// create email function
+/**
+ * take the range of data in sheet
+ * use it to build an HTML email body
+ */
 function createEmailNew() {
   var thisWorkbook = SpreadsheetApp.getActiveSpreadsheet();
   var thisSheet = thisWorkbook.getSheetByName('Test Sheet');
@@ -19,11 +23,9 @@ function createEmailNew() {
   
   // get the header row
   var headers = allData.shift();
-  //Logger.log(headers);
   
   // create header index map
   var headerIndexes = indexifyHeaders(headers);
-  //Logger.log(JSON.stringify(headerIndexes));
   
   allData.forEach(function(row,i) {
     if (row[headerIndexes["Reply Group"]] === 1 && !row[headerIndexes["Time replied / Status"]]) {
@@ -45,17 +47,19 @@ function createEmailNew() {
       
       var timestamp = sendEmail(row[headerIndexes["Email Address"]],htmlBody);
       thisSheet.getRange(i + 2, headerIndexes["Time replied / Status"] + 1).setValue(timestamp);
-    
     }
     else {
       Logger.log("No email sent for this row");
     }
   });
-  
 }
   
 
-// create index from column headings
+/**
+ * create index from column headings
+ * @param {[object]} headers is an array of column headings
+ * @return {{object}} object of column headings as key value pairs with index number
+ */
 function indexifyHeaders(headers) {
   
   var index = 0;
@@ -78,9 +82,13 @@ function indexifyHeaders(headers) {
   );
 }
 
-// function to send email
+/**
+ * send email from GmailApp service
+ * @param {string} recipient is the email address to send email to
+ * @param {string} body is the html body of the email
+ * @return {object} new date object to write into spreadsheet to confirm email sent
+ */
 function sendEmail(recipient,body) {
-  Logger.log(recipient);
   
   GmailApp.sendEmail(
     recipient,
