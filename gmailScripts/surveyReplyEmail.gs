@@ -14,12 +14,13 @@ function onOpen() {
 function createEmailNew() {
   var thisWorkbook = SpreadsheetApp.getActiveSpreadsheet();
   var thisSheet = thisWorkbook.getSheetByName('Test Sheet');
-  
+  //Form Responses 1
   // get the data range of the sheet
   var allRange = thisSheet.getDataRange();
   
   // get all the data in this range
   var allData = allRange.getValues();
+  Logger.log(allData.length);
   
   // get the header row
   var headers = allData.shift();
@@ -28,28 +29,31 @@ function createEmailNew() {
   var headerIndexes = indexifyHeaders(headers);
   
   allData.forEach(function(row,i) {
-    if (row[headerIndexes["Reply Group"]] === 1 && !row[headerIndexes["Time replied / Status"]]) {
-      var   htmlBody = 
+    if ((row[headerIndexes["Reply Group"]] === 1 ||
+         row[headerIndexes["Reply Group"]] === 2) && 
+         !row[headerIndexes["Time replied / Status"]]) 
+      {
+        var   htmlBody = 
           "Hi " + row[headerIndexes["What's your name?"]] +",<br><br>" +
             "Thanks for responding and letting me know you're interested in the new course!<br><br>" +
               "<em>Your response:<br><br>" +
-                row[headerIndexes["Why do you want to take this course?"]] + "<br><br>" +
-                  row[headerIndexes["Any other information you'd like to share with me? I'm happy to hear from you..."]] + "</em><br><br>" +
-                    row[headerIndexes["My Reply"]] + "<br><br>" +
-                      "I've had over 250 people respond, which is crazy! So I'll be in touch with a small group about the testing program soon, \n" +
-                        "but if you don't hear from me regarding that, I'll still have a special offer for you when the course launches to say thanks!<br><br>" + 
-                          "Anything specific you'd like to see in this Data Cleaning and Pivot Table course? Let me know!<br><br>" +
-                            "Have a great day.<br><br>" +
-                              "Thanks,<br>" +
-                                "Ben<br><br>" +
-                                  "P.S. I sent you this email directly from my Google Sheet, with a bit of help from Apps Script, using tricks from <a href='http://www.benlcollins.com/spreadsheets/marking-template/'>this tutorial</a>.";
-      
+                (row[headerIndexes["Why do you want to take this course?"]] ? (row[headerIndexes["Why do you want to take this course?"]] + "<br><br>") : "") +
+                  (row[headerIndexes["Any other information you'd like to share with me? I'm happy to hear from you..."]] ? 
+                    (row[headerIndexes["Any other information you'd like to share with me? I'm happy to hear from you..."]] + "<br><br>") : "") + "</em>" +
+                      (row[headerIndexes["Reply Group"]] === 1 ? (row[headerIndexes["My Reply"]] + "<br><br>") : "") + 
+                        "I've had over 250 people respond, which is crazy! So I'll be in touch with a small group about the testing program soon, \n" +
+                          "but if you don't hear from me regarding that, I'll still have a special offer for you when the course launches to say thanks!<br><br>" + 
+                            "Anything specific you'd like to see in this Data Cleaning and Pivot Table course? Let me know!<br><br>" +
+                              "Have a great day.<br><br>" +
+                                "Thanks,<br>" +
+                                  "Ben<br><br>" +
+                                    "P.S. I sent you this email directly from my Google Sheet, with a bit of help from Apps Script, using tricks from <a href='http://www.benlcollins.com/spreadsheets/marking-template/'>this tutorial</a>.";
       
       var timestamp = sendEmail(row[headerIndexes["Email Address"]],htmlBody);
       thisSheet.getRange(i + 2, headerIndexes["Time replied / Status"] + 1).setValue(timestamp);
     }
     else {
-      Logger.log("No email sent for this row");
+      Logger.log("No email sent for this row: " + i + 1);
     }
   });
 }
