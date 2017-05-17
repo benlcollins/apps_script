@@ -13,7 +13,7 @@ function onOpen() {
  */
 function createEmailNew() {
   var thisWorkbook = SpreadsheetApp.getActiveSpreadsheet();
-  var thisSheet = thisWorkbook.getSheetByName('Test Sheet');
+  var thisSheet = thisWorkbook.getSheetByName('Form Responses 1');
   //Form Responses 1
   // get the data range of the sheet
   var allRange = thisSheet.getDataRange();
