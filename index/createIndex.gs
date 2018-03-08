@@ -91,7 +91,7 @@ function sheetNamesIds(sheets) {
   // create array of sheet names and sheet gids
   sheets.forEach(function(sheet){
     indexSheetNames.push([sheet.getSheetName()]);
-    indexSheetIds.push(['=hyperlink("https://docs.google.com/spreadsheets/d/1D7nX_l3wlNEAoBuEyde5daQgMy56uPMco0aVs51ibVY/edit#gid=' 
+    indexSheetIds.push(['=hyperlink("#gid=' 
                         + sheet.getSheetId() 
                         + '","' 
                         + sheet.getSheetName() 
