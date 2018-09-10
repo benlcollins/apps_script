@@ -7,6 +7,7 @@ function onOpen() {
   ui.createMenu("Auto Feedback Tool")
   .addItem("Analyze Feedback","analyzeFeedback")
   .addItem("Confirm Sent","confirmEmailSent")
+  .addItem("Drafts Waiting?","draftsWaitingAlert")
   .addToUi();
 }
 
@@ -29,11 +30,11 @@ function analyzeFeedback() {
       Logger.log(i);
       //Logger.log(row);
       //Logger.log("row 4");
-      //Logger.log(row[4]);
+      Logger.log(row[4]);
       
       // call receiveSentiment for each row
       var nlData = retrieveSentiment(row[4]);
-      //Logger.log(nlData);
+      Logger.log(nlData);
       
       var sentimentScore = nlData.entities[0].sentiment.score;
       var sentimentMagnitude = nlData.entities[0].sentiment.magnitude;
@@ -165,11 +166,47 @@ function confirmEmailSent(emailAddress, subjectLine) {
 
 
 /**
+ * Alert me that draft emails are waiting for me to review and send
+ * run this once a day maybe?
+ * @param
+ * @return
+ */
+function draftsWaitingAlert() {
+  
+  // get data from the Sheet
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName('Feedback');
+  var allRange = sheet.getDataRange();
+  var allData = allRange.getValues();
+  
+  var draftCount = 0;
+  
+  allData.forEach(function(row,i) {
+    if (i !== 0 && row[9] == '') {
+      draftCount++;
+    }
+  });
+  
+  if (draftCount > 0) {
+    GmailApp.sendEmail(
+      "ben@benlcollins.com", 
+      "Draft emails waiting re course feedback", 
+      "You have " + draftCount + " draft emails waiting for review."
+    );
+  }
+  
+}
+
+
+
+/**
  * Calls Google Cloud Natural Language API with cell string from my Sheet
  * @param {String} cell The string from a cell in my Sheet
  * @return {Object} the entities and related sentiment present in my string
  */
 function retrieveSentiment(cell) {
+  
+  Logger.log(cell);
   
   var apiEndpoint = 'https://language.googleapis.com/v1/documents:analyzeEntitySentiment?key=' + apiKey;
   
@@ -192,6 +229,8 @@ function retrieveSentiment(cell) {
   
   //  And make the call
   var response = UrlFetchApp.fetch(apiEndpoint, nlOptions);
+  
+  Logger.log(response);
   
   return JSON.parse(response);
   
