@@ -6,6 +6,7 @@ function onOpen() {
   
   ui.createMenu("Auto Feedback Tool")
   .addItem("Analyze Feedback","analyzeFeedback")
+  .addItem("Confirm Sent","confirmEmailSent")
   .addToUi();
 }
 
@@ -93,6 +94,8 @@ function createDraft(overallScore, fullname, emailAddress, feedback) {
   }
   
   // create the draft email
+  var subjectLine = 'Thank you for your feedback on the course TEST';
+  
   var   htmlBody = 
         "Hi "+ fullname +",<br><br>" +
           "Thanks for responding to my course feedback questionnaire!<br><br>" +
@@ -107,7 +110,7 @@ function createDraft(overallScore, fullname, emailAddress, feedback) {
   
   GmailApp.createDraft(
     emailAddress,
-    'Thank you for your feedback on the course TEST',
+    subjectLine,
     '',
     {
       htmlBody: htmlBody
@@ -120,6 +123,45 @@ function createDraft(overallScore, fullname, emailAddress, feedback) {
   
   return timestamp;
 }
+
+
+/**
+ * Confirm email sent
+ * run this once a day maybe?
+ * @param
+ * @return
+ */
+function confirmEmailSent(emailAddress, subjectLine) {
+  
+  // move this to a global variable or pass it in
+  var subjectLine = 'Thank you for your feedback on the course TEST';
+  
+  // find email in Sent emails folder that matches the email address and subject line
+  // check all the rows in my dataset with a draft date next to them
+  // add a new timestamp in the sent column once sending has been confirmed
+  
+  // get data from the Sheet
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName('Feedback');
+  var allRange = sheet.getDataRange();
+  var allData = allRange.getValues();
+  
+  allData.forEach(function(row,i) {
+    if (i !== 0 && row[9] == '') {
+      
+      Logger.log(i);
+      var emailAddress = row[2];
+      Logger.log(emailAddress);
+      
+      if (GmailApp.search("in:sent to:" + emailAddress + " subject:" + subjectLine)[0]) {
+        var timestamp = new Date();
+        sheet.getRange(i+1, 10).setValue(timestamp);
+      }
+    }
+  }); 
+  
+}
+
 
 
 /**
