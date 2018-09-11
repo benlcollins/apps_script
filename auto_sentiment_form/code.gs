@@ -36,8 +36,8 @@ function analyzeFeedback() {
       var nlData = retrieveSentiment(row[4]);
       Logger.log(nlData);
       
-      var sentimentScore = nlData.entities[0].sentiment.score;
-      var sentimentMagnitude = nlData.entities[0].sentiment.magnitude;
+      var sentimentScore = nlData ? nlData.entities[0].sentiment.score : 0;
+      var sentimentMagnitude = nlData ? nlData.entities[0].sentiment.magnitude : 0;
       
       var overallScore = sentimentScore * sentimentMagnitude;
       
@@ -206,7 +206,7 @@ function draftsWaitingAlert() {
  */
 function retrieveSentiment(cell) {
   
-  Logger.log(cell);
+  //Logger.log(cell);
   
   var apiEndpoint = 'https://language.googleapis.com/v1/documents:analyzeEntitySentiment?key=' + apiKey;
   
@@ -227,11 +227,18 @@ function retrieveSentiment(cell) {
     payload : JSON.stringify(nlData)
   };
   
-  //  And make the call
-  var response = UrlFetchApp.fetch(apiEndpoint, nlOptions);
-  
-  Logger.log(response);
-  
-  return JSON.parse(response);
+  //  Try fetching the natural language api
+  try {
+    
+    // return the parsed JSON data if successful
+    var response = UrlFetchApp.fetch(apiEndpoint, nlOptions);
+    return JSON.parse(response);
+    
+  } catch(e) {
+    
+    // log the error message and return null if not successful
+    Logger.log("Error fetching the Natural Language API: " + e);
+    return null;
+  }
   
 };
