@@ -114,8 +114,8 @@ function auditUrl(url) {
     sheetsArray.push(thisSheetInfo);
   });
   
-  var totalCellPercent = totalCellCounter / 2000000;
-  var totalDataCellPercent = totalDataCellCounter / 2000000;
+  var totalCellPercent = totalCellCounter / 5000000;
+  var totalDataCellPercent = totalDataCellCounter / 5000000;
   
   fileArray.push(numSheets, totalCellCounter, totalCellPercent, totalDataCellCounter, totalDataCellPercent);
   
