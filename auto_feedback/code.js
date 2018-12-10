@@ -47,7 +47,7 @@ function analyzeFeedback() {
   
   // get data from the Sheet
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var sheet = ss.getSheetByName('Feedback');
+  var sheet = ss.getSheetByName('Form Responses 1');
   var allRange = sheet.getDataRange();
   var allData = allRange.getValues();
   
@@ -55,27 +55,42 @@ function analyzeFeedback() {
   var headers = allData.shift();
   Logger.log(headers);
   
-  /*
+  
   allData.forEach(function(row,i) {
-    if (i !== 0 && row[5] == '') {
+    if (row[7] == '') {
       
       Logger.log(i);
       //Logger.log(row);
       //Logger.log("row 4");
-      Logger.log(row[4]);
+      Logger.log(row[6]);
+
+      var anything_else_feedback = row[6];
+      
       
       // call receiveSentiment for each row
-      var nlData = retrieveSentiment(row[4]);
-      Logger.log(nlData);
-      
-      var sentimentScore = nlData ? nlData.entities[0].sentiment.score : 0;
-      var sentimentMagnitude = nlData ? nlData.entities[0].sentiment.magnitude : 0;
+      if (row[6] != '') {
+        
+        var nlData = retrieveSentiment(anything_else_feedback);
+
+        Logger.log(nlData);
+
+        var sentimentScore = nlData.entities[0] ? nlData.entities[0].sentiment.score : 0;
+        var sentimentMagnitude = nlData.entities[0] ? nlData.entities[0].sentiment.magnitude : 0;
+
+      }
+      else {
+        
+        var sentimentScore = 0;
+        var sentimentMagnitude = 0;
+
+      }
       
       var overallScore = sentimentScore * sentimentMagnitude;
       
       // paste the sentiment to the spreadsheet
-      sheet.getRange(i+1, 6, 1, 3).setValues([[sentimentScore,sentimentMagnitude,overallScore]]);
+      sheet.getRange(i+2, 10, 1, 3).setValues([[sentimentScore,sentimentMagnitude,overallScore]]);
       
+      /*
       // get the user inputs into variables
       var fullname = row[1];
       var emailAddress = row[2];
@@ -90,6 +105,7 @@ function analyzeFeedback() {
       //Logger.log(overallScore);
       
       sheet.getRange(i+1,9).setValue(timestamp);
+      */
     }
       
       
@@ -97,8 +113,6 @@ function analyzeFeedback() {
       
   });
   
-  //Logger.log(allData);
-  */
 }
 
 
