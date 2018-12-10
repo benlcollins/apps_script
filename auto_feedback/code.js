@@ -57,55 +57,55 @@ function analyzeFeedback() {
   
   
   allData.forEach(function(row,i) {
-    if (row[7] == '') {
+    if (row[8] == '') {
       
-      Logger.log(i);
-      //Logger.log(row);
-      //Logger.log("row 4");
-      Logger.log(row[6]);
+      //Logger.log(i);
+      //Logger.log(row[6]);
 
-      var anything_else_feedback = row[6];
+      // get the user inputs into variables
+      
+      var emailAddress = row[1];
+      var courseName = row[2];
+      var feedbackSource = row[3];
+      var feedbackWhy = row[4];
+      var feedbackHope = row[5];
+      var feedbackElse = row[6];
+      var fullname = row[7];
       
       
       // call receiveSentiment for each row
       if (row[6] != '') {
         
-        var nlData = retrieveSentiment(anything_else_feedback);
+        var nlData = retrieveSentiment(feedbackElse);
 
         Logger.log(nlData);
 
+        // set to zero if no sentiment score is returned from the api
         var sentimentScore = nlData.entities[0] ? nlData.entities[0].sentiment.score : 0;
         var sentimentMagnitude = nlData.entities[0] ? nlData.entities[0].sentiment.magnitude : 0;
 
       }
       else {
         
+        // set to zero if the comment cell is blank in Sheet
         var sentimentScore = 0;
         var sentimentMagnitude = 0;
 
       }
       
+      // create an overall score
       var overallScore = sentimentScore * sentimentMagnitude;
       
       // paste the sentiment to the spreadsheet
-      sheet.getRange(i+2, 10, 1, 3).setValues([[sentimentScore,sentimentMagnitude,overallScore]]);
-      
-      /*
-      // get the user inputs into variables
-      var fullname = row[1];
-      var emailAddress = row[2];
-      var feedback = row[4];
-      
+      sheet.getRange(i+2, 11, 1, 3).setValues([[sentimentScore,sentimentMagnitude,overallScore]]);
       
       // pass variables to the create draft function
-      var timestamp = createDraft(overallScore,fullname,emailAddress,feedback);
+      createDraft(overallScore,fullname,emailAddress,courseName,feedbackWhy,feedbackHope,feedbackElse);
+
+      var d = new Date();
       
-      //Logger.log(sentimentScore);
-      //Logger.log(sentimentMagnitude);
-      //Logger.log(overallScore);
+      sheet.getRange(i+1,9).setValue(d);
       
-      sheet.getRange(i+1,9).setValue(timestamp);
-      */
     }
       
       
@@ -121,7 +121,7 @@ function analyzeFeedback() {
  * @param
  * @return
  */
-function createDraft(overallScore, fullname, emailAddress, feedback) {
+function createDraft(overallScore,fullname,emailAddress,courseName,feedbackWhy,feedbackHope,feedbackElse) {
   
   // get pre-populated data from the Sheet
   var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -141,19 +141,21 @@ function createDraft(overallScore, fullname, emailAddress, feedback) {
   }
   
   // create the draft email
-  var subjectLine = 'Thank you for your feedback on the course TEST';
+  var subjectLine = 'Thank you for your feedback on the course ' + courseName;
   
-  var   htmlBody = 
+  var htmlBody = 
         "Hi "+ fullname +",<br><br>" +
           "Thanks for responding to my course feedback questionnaire!<br><br>" +
             response + "<br><br>" +
               "Your feedback:<br><br>" +
-                "<i>What did you think of product XYZ?:<br><br>" +
-                  feedback +
-                    "</i><br><br>" + 
-                      "Have a great day!<br><br>" +
-                        "Thanks,<br>" +
-                          "Ben";
+                "<i>Why are you taking the " + courseName + " course(s)?<br><br>" +
+                  feedbackWhy +
+                    "<i>What are you hoping to get out of " + courseName + " course(s)?<br><br>" +
+                      feedbackHope +
+                        "</i><br><br>" + 
+                          "Have a great day!<br><br>" +
+                            "Thanks,<br>" +
+                              "Ben";
   
   GmailApp.createDraft(
     emailAddress,
@@ -164,11 +166,7 @@ function createDraft(overallScore, fullname, emailAddress, feedback) {
     }
   );
   
-  var timestamp = new Date(); 
-  
   Logger.log(htmlBody);
-  
-  return timestamp;
 }
 
 
