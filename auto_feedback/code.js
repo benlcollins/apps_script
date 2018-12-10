@@ -1,17 +1,6 @@
 /**
  * TO DO:
- * Setup triggers to run automatically
- * Add error handling so that if the cloud natural language api craps out, it assumes a score of 0 and creates the draft email that way
  * Refactor the spreadsheet data wrangling
- *
- *
- *
- *
- *
- *
- *
- *
- * 
  *
  * DONE:
  * Add menu
@@ -21,6 +10,8 @@
  * Create a draft email in Gmail with boilerplate email text and the original feedback
  * Apps script detects when email has been sent and to which address, and marks it as sent in my Sheet
  * Once a day apps script checks how many new drafts have been created and sends me a reminder, "You have 3 course feedback drafts waiting for your attention"
+ * Add error handling so that if the cloud natural language api craps out, it assumes a score of 0 and creates the draft email that way
+ * Setup triggers to run draft alert and confirm emails sent on a daily basis
  *
  */
 
@@ -240,7 +231,7 @@ function confirmEmailSent() {
 
 /**
  * Alert me that draft emails are waiting for me to review and send
- * run this once a day maybe?
+ * run this once a day by trigger
  * @param
  * @return
  */
@@ -248,14 +239,15 @@ function draftsWaitingAlert() {
   
   // get data from the Sheet
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var sheet = ss.getSheetByName('Feedback');
+  var sheet = ss.getSheetByName('Form Responses 1');
   var allRange = sheet.getDataRange();
   var allData = allRange.getValues();
+  allData.shift(); // remove header row
   
   var draftCount = 0;
   
   allData.forEach(function(row,i) {
-    if (i !== 0 && row[9] == '') {
+    if (row[9] == '') {
       draftCount++;
     }
   });
@@ -263,8 +255,8 @@ function draftsWaitingAlert() {
   if (draftCount > 0) {
     GmailApp.sendEmail(
       "ben@benlcollins.com", 
-      "Draft emails waiting re course feedback", 
-      "You have " + draftCount + " draft emails waiting for review."
+      "Draft emails waiting re Course Feedback", 
+      "You have " + draftCount + " draft emails relating to course feedback waiting for review."
     );
   }
   
