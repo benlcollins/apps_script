@@ -104,7 +104,7 @@ function analyzeFeedback() {
 
       var d = new Date();
       
-      sheet.getRange(i+1,9).setValue(d);
+      sheet.getRange(i+2,9).setValue(d);
       
     }
       
@@ -141,7 +141,7 @@ function createDraft(overallScore,fullname,emailAddress,courseName,feedbackWhy,f
   }
   
   // create the draft email
-  var subjectLine = 'Thank you for your feedback on the course ' + courseName;
+  var subjectLine = 'Thank you for your feedback on ' + courseName;
   
   var htmlBody = 
         "Hi "+ fullname +",<br><br>" +
@@ -150,7 +150,7 @@ function createDraft(overallScore,fullname,emailAddress,courseName,feedbackWhy,f
               "Your feedback:<br><br>" +
                 "<i>Why are you taking the " + courseName + " course(s)?<br><br>" +
                   feedbackWhy +
-                    "<i>What are you hoping to get out of " + courseName + " course(s)?<br><br>" +
+                    "What are you hoping to get out of " + courseName + " course(s)?<br><br>" +
                       feedbackHope +
                         "</i><br><br>" + 
                           "Have a great day!<br><br>" +
@@ -176,10 +176,10 @@ function createDraft(overallScore,fullname,emailAddress,courseName,feedbackWhy,f
  * @param
  * @return
  */
-function confirmEmailSent(emailAddress, subjectLine) {
+function confirmEmailSent() {
   
   // move this to a global variable or pass it in
-  var subjectLine = 'Thank you for your feedback on the course TEST';
+  var subjectLine = 'Thank you for your feedback on ';
   
   // find email in Sent emails folder that matches the email address and subject line
   // check all the rows in my dataset with a draft date next to them
@@ -187,21 +187,50 @@ function confirmEmailSent(emailAddress, subjectLine) {
   
   // get data from the Sheet
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var sheet = ss.getSheetByName('Feedback');
+  var sheet = ss.getSheetByName('Form Responses 1');
   var allRange = sheet.getDataRange();
-  var allData = allRange.getValues();
-  
+  var allData = allRange.getValues(); 
+
+  allData.shift(); // remove header row
+
+  //Logger.log(allData);
+
   allData.forEach(function(row,i) {
-    if (i !== 0 && row[9] == '') {
+
+    if (row[9] == '') {
       
       Logger.log(i);
-      var emailAddress = row[2];
+      Logger.log(row);
+      var emailAddress = row[1];
       Logger.log(emailAddress);
       
-      if (GmailApp.search("in:sent to:" + emailAddress + " subject:" + subjectLine)[0]) {
-        var timestamp = new Date();
-        sheet.getRange(i+1, 10).setValue(timestamp);
-      }
+      var courseNames = [
+        'Build Dashboards with Google Sheets and Data Studio',
+        'Google Sheets Training Bundle',
+        'Data Cleaning and Pivot Tables in Google Sheets',
+        'Google Sheets Training Bundle (both courses)',
+        'Data Analysis with Google Sheets (new, August 2018)',
+        'Build Dashboards with Google Sheets',
+        'Google Sheets Bootcamp (Data Cleaning + Data Analysis + Dashboard)',
+        'Pivot Tables in Google Sheets',
+        'Google Sheets Bootcamp (Data Cleaning + Data Analysis + Dashboard), Pivot Tables in Google Sheets'
+      ];
+
+      courseNames.forEach(function(name){
+
+        Logger.log(name);
+
+        if (GmailApp.search("in:sent to:" + emailAddress + " subject:" + subjectLine + name)[0]) {
+          
+          Logger.log("result!");
+
+          var d = new Date();
+          sheet.getRange(i+2, 10).setValue(d);
+        }
+
+      });
+
+      
     }
   }); 
   
