@@ -140,10 +140,9 @@ function createDraft(overallScore,fullname,emailAddress,courseName,feedbackWhy,f
             response + "<br><br>" +
               "Your feedback:<br><br>" +
                 "<i>Why are you taking the " + courseName + " course(s)?<br><br>" +
-                  feedbackWhy +
+                  feedbackWhy + "<br><br>" + 
                     "What are you hoping to get out of " + courseName + " course(s)?<br><br>" +
-                      feedbackHope +
-                        "</i><br><br>" + 
+                      feedbackHope + "</i><br><br>" +     
                           "Have a great day!<br><br>" +
                             "Thanks,<br>" +
                               "Ben";
