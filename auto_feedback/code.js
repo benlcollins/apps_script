@@ -139,17 +139,10 @@ function createDraft(overallScore,fullname,emailAddress,courseName,feedbackWhy,f
           "Thanks for responding to my course feedback questionnaire!<br><br>" +
             response + "<br><br>" +
               "Your feedback:<br><br>" +
-<<<<<<< HEAD
-                "<i>Why are you taking the " + courseName + " course(s)?<br><br>" +
-                  feedbackWhy + "<br><br>" + 
-                    "What are you hoping to get out of " + courseName + " course(s)?<br><br>" +
-                      feedbackHope + "</i><br><br>" +     
-=======
                 "<i>Why are you taking the course(s)?<br><br>" +
                   feedbackWhy + "<br><br>" +
                     "What are you hoping to get out of the course(s)?<br><br>" +
                       feedbackHope + "</i><br><br>" + 
->>>>>>> master
                           "Have a great day!<br><br>" +
                             "Thanks,<br>" +
                               "Ben";
@@ -176,7 +169,7 @@ function createDraft(overallScore,fullname,emailAddress,courseName,feedbackWhy,f
 function confirmEmailSent() {
   
   // move this to a global variable or pass it in
-  var subjectLine = 'Thank you for your feedback on ';
+  var subjectLine = 'Thank you for your feedback on the Google Sheets courses';
   
   // find email in Sent emails folder that matches the email address and subject line
   // check all the rows in my dataset with a draft date next to them
@@ -200,34 +193,15 @@ function confirmEmailSent() {
       Logger.log(row);
       var emailAddress = row[1];
       Logger.log(emailAddress);
-      
-      var courseNames = [
-        'Build Dashboards with Google Sheets and Data Studio',
-        'Google Sheets Training Bundle',
-        'Data Cleaning and Pivot Tables in Google Sheets',
-        'Google Sheets Training Bundle (both courses)',
-        'Data Analysis with Google Sheets (new, August 2018)',
-        'Build Dashboards with Google Sheets',
-        'Google Sheets Bootcamp (Data Cleaning + Data Analysis + Dashboard)',
-        'Pivot Tables in Google Sheets',
-        'Google Sheets Bootcamp (Data Cleaning + Data Analysis + Dashboard), Pivot Tables in Google Sheets'
-      ];
 
-      courseNames.forEach(function(name){
+      if (GmailApp.search("in:sent to:" + emailAddress + " subject:" + subjectLine)[0]) {
+        
+        Logger.log("result!");
 
-        Logger.log(name);
+        var d = new Date();
+        sheet.getRange(i+2, 10).setValue(d);
+      }
 
-        if (GmailApp.search("in:sent to:" + emailAddress + " subject:" + subjectLine + name)[0]) {
-          
-          Logger.log("result!");
-
-          var d = new Date();
-          sheet.getRange(i+2, 10).setValue(d);
-        }
-
-      });
-
-      
     }
   }); 
   
