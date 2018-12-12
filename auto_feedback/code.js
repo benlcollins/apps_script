@@ -132,7 +132,7 @@ function createDraft(overallScore,fullname,emailAddress,courseName,feedbackWhy,f
   }
   
   // create the draft email
-  var subjectLine = 'Thank you for your feedback on the Google Sheets courses';
+  var subjectLine = 'Thanks for your feedback on the Google Sheets courses';
   
   var htmlBody = 
         "Hi "+ fullname +",<br><br>" +
@@ -169,7 +169,7 @@ function createDraft(overallScore,fullname,emailAddress,courseName,feedbackWhy,f
 function confirmEmailSent() {
   
   // move this to a global variable or pass it in
-  var subjectLine = 'Thank you for your feedback on the Google Sheets courses';
+  var subjectLine = 'Thanks for your feedback on the Google Sheets courses';
   
   // find email in Sent emails folder that matches the email address and subject line
   // check all the rows in my dataset with a draft date next to them
