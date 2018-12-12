@@ -132,17 +132,24 @@ function createDraft(overallScore,fullname,emailAddress,courseName,feedbackWhy,f
   }
   
   // create the draft email
-  var subjectLine = 'Thank you for your feedback on ' + courseName;
+  var subjectLine = 'Thank you for your feedback on the Google Sheets courses';
   
   var htmlBody = 
         "Hi "+ fullname +",<br><br>" +
           "Thanks for responding to my course feedback questionnaire!<br><br>" +
             response + "<br><br>" +
               "Your feedback:<br><br>" +
+<<<<<<< HEAD
                 "<i>Why are you taking the " + courseName + " course(s)?<br><br>" +
                   feedbackWhy + "<br><br>" + 
                     "What are you hoping to get out of " + courseName + " course(s)?<br><br>" +
                       feedbackHope + "</i><br><br>" +     
+=======
+                "<i>Why are you taking the course(s)?<br><br>" +
+                  feedbackWhy + "<br><br>" +
+                    "What are you hoping to get out of the course(s)?<br><br>" +
+                      feedbackHope + "</i><br><br>" + 
+>>>>>>> master
                           "Have a great day!<br><br>" +
                             "Thanks,<br>" +
                               "Ben";
