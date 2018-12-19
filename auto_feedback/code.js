@@ -233,10 +233,17 @@ function draftsWaitingAlert() {
   });
   
   if (draftCount > 0) {
+
+    var htmlBody = "You have " + draftCount + " draft emails relating to course feedback waiting for review.<br><br>" +
+                 "To see all feedback, <a href=''>click here</a>."
+
     GmailApp.sendEmail(
       "ben@benlcollins.com", 
       "Draft emails waiting re Course Feedback", 
-      "You have " + draftCount + " draft emails relating to course feedback waiting for review."
+      '',
+      {
+        htmlBody: htmlBody
+      }
     );
   }
   
