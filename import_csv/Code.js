@@ -8,15 +8,22 @@
  *
  */
 
+ /*
+ To Do:
+ add data underneath any existing data
+ ask user whether header row present, remove first row if there is
+
+
+
+ */
+
 // add custom menu to run from Google Sheet UI
 function onOpen() {
-
 	var ui = SpreadsheetApp.getUi();
-
 	ui.createMenu('Import CSV data')
-				.addItem('Import from folder', 'importCSV')
-				.addToUi();
-				
+		.addItem('Import from folder', 'importCSV')
+		.addToUi();
+
 }
 
 
@@ -29,6 +36,8 @@ function importCSV() {
 	Logger.log(csvData);
 
 	var sheet = SpreadsheetApp.getActiveSheet();
-	sheet.getRange(1,1,csvData.length, csvData[0].length).setValues(csvData);
+	var lastRow = sheet.getLastRow();
+
+	sheet.getRange(lastRow + 1,1,csvData.length, csvData[0].length).setValues(csvData);
 
 }
