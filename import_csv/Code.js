@@ -8,32 +8,35 @@
  *
  */
 
- /*
- To Do:
- add data underneath any existing data
- ask user whether header row present, remove first row if there is
-
-
-
- */
-
 // add custom menu to run from Google Sheet UI
 function onOpen() {
 	var ui = SpreadsheetApp.getUi();
 	ui.createMenu('Import CSV data')
-		.addItem('Import from folder', 'importCSV')
+		.addItem('Import from folder', 'importCSVFromFolder')
+		.addItem('Test alert', 'includesHeader')
 		.addToUi();
 
 }
 
+// main function to control 
+function includesHeader() {
+	var ui = SpreadsheetApp.getUi();
+	var response = ui.alert('Does your data have a header row?',ui.ButtonSet.YES_NO);
+	return response;
+}
+
 
 // function to import CSV data
-function importCSV() {
+function importCSVFromFolder() {
   
 	var file = DriveApp.getFilesByName("testing_csv_2.csv").next();
 	var csvData = Utilities.parseCsv(file.getBlob().getDataAsString());
 
 	Logger.log(csvData);
+
+	var headerRow = includesHeader();
+
+	if (headerRow == 'YES') { csvData.shift() };
 
 	var sheet = SpreadsheetApp.getActiveSheet();
 	var lastRow = sheet.getLastRow();
