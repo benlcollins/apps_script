@@ -12,8 +12,8 @@
 function onOpen() {
 	var ui = SpreadsheetApp.getUi();
 	ui.createMenu('Import CSV data')
+		.addItem('Import from file', 'importCSVFromFile')
 		.addItem('Import from folder', 'importCSVFromFolder')
-		.addItem('Test alert', 'includesHeader')
 		.addToUi();
 
 }
@@ -27,9 +27,9 @@ function includesHeader() {
 
 
 // function to import CSV data
-function importCSVFromFolder() {
+function importCSVFromFile() {
   
-	var file = DriveApp.getFilesByName("testing_csv_2.csv").next();
+	var file = DriveApp.getFilesByName('testing_csv_2.csv').next();
 	var csvData = Utilities.parseCsv(file.getBlob().getDataAsString());
 
 	Logger.log(csvData);
@@ -44,3 +44,22 @@ function importCSVFromFolder() {
 	sheet.getRange(lastRow + 1,1,csvData.length, csvData[0].length).setValues(csvData);
 
 }
+
+
+// generalized to extract csv data from any files in a Drive folder
+function importCSVFromFolder() {
+
+	var folder = DriveApp.getFoldersByName('CSV datasets').next();
+	var csvFiles = folder.getFilesByType(MimeType.CSV);
+
+	while (csvFiles.hasNext()) {
+		var file = csvFiles.next();
+		Logger.log(file.getName());
+	}
+
+}
+
+
+
+
+
