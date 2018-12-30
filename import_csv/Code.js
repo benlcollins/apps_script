@@ -4,7 +4,8 @@
  * Step 2: Extract data from each CSV file
  * Step 3: Paste the data to the Sheet
  * Step 4: Repeat for each file in folder
- * Step 5: Set triggers to automatically look for and import data on a daily/hourly basis
+ * Step 5: Automatically identify header rows in datasets
+ * Step 6: Set triggers to automatically look for and import data on a daily/hourly basis
  *
  */
 
@@ -19,22 +20,22 @@ function onOpen() {
 }
 
 // main function to control 
-function includesHeader() {
+function includesHeader(fileName) {
 	var ui = SpreadsheetApp.getUi();
-	var response = ui.alert('Does your data have a header row?',ui.ButtonSet.YES_NO);
+	var response = ui.alert('Does the file ' + fileName + ' have a header row?',ui.ButtonSet.YES_NO);
 	return response;
 }
 
 
 // function to import CSV data
-function importCSVFromFile() {
+function importCSVFromFile(fileName) {
   
 	var file = DriveApp.getFilesByName('testing_csv_2.csv').next();
 	var csvData = Utilities.parseCsv(file.getBlob().getDataAsString());
 
 	Logger.log(csvData);
 
-	var headerRow = includesHeader();
+	var headerRow = includesHeader(fileName);
 
 	if (headerRow == 'YES') { csvData.shift() };
 
@@ -54,7 +55,10 @@ function importCSVFromFolder() {
 
 	while (csvFiles.hasNext()) {
 		var file = csvFiles.next();
-		Logger.log(file.getName());
+		var fileName = file.getName();
+
+		importCSVFromFile(fileName);
+
 	}
 
 }
