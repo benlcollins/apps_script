@@ -13,6 +13,7 @@ function sheetsToCalendar() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sheet = ss.getSheetByName('Fixtures');
 
+  /*
   // ask user which calendar they want to add data to
   var ui = SpreadsheetApp.getUi();
   var result = ui.prompt(
@@ -21,6 +22,11 @@ function sheetsToCalendar() {
       ui.ButtonSet.OK_CANCEL);
 
   var email = result.getResponseText();
+  */
+  var email = 'ben@benlcollins.com';
+
+  // email to share with
+  var guest = 'benlcollins@gmail.com';
 
   // get calendar
   var masterCal = CalendarApp.getCalendarById(email);
@@ -29,17 +35,21 @@ function sheetsToCalendar() {
   
   fixtures.forEach(function(fixture) {
     
+    var title = fixture[2] + ' v ' + fixture[3] + ' (' + fixture[1] + ')';
     var startTime = fixture[0];
     var endTime = new Date(startTime);
     addHours(endTime,2);
-    var title = fixture[1] + ' - ' + fixture[2] + ' v ' + fixture[3];
 
-    Logger.log(startTime);
-    Logger.log(endTime);
-    Logger.log(title);
+    // sharing options
+    var options = {
+      description: fixture[1],
+      location: '',
+      guests: guest,
+      sendInvites: true
+    };
 
     try {
-      masterCal.createEvent(title,startTime,endTime);  
+      masterCal.createEvent(title,startTime,endTime,options);  
     } catch(e) {
       Logger.log('Error with calendar (' + email + '): ' + e);
     }
