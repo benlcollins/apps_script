@@ -25,8 +25,9 @@ function sheetsToCalendar() {
   */
   var email = 'ben@benlcollins.com';
 
-  // email to share with
-  var guest = 'benlcollins@gmail.com';
+  // guest emails
+  // add additional guests into string separated by commas
+  var guests = '';
 
   // get calendar
   var masterCal = CalendarApp.getCalendarById(email);
@@ -44,7 +45,7 @@ function sheetsToCalendar() {
     var options = {
       description: fixture[1],
       location: '',
-      guests: guest,
+      guests: guests,
       sendInvites: true
     };
 
