@@ -7,13 +7,15 @@
  * Step 5: Automatically identify header rows in datasets
  * Step 6: Set triggers to automatically look for and import data on a daily/hourly basis
  *
+ * Other considerations:
+ * what if there are two files with same name?
  */
 
 // add custom menu to run from Google Sheet UI
 function onOpen() {
 	var ui = SpreadsheetApp.getUi();
 	ui.createMenu('Import CSV data')
-		.addItem('Import from file', 'importCSVFromFile')
+		//.addItem('Import from file', 'importCSVFromFile')
 		.addItem('Import from folder', 'importCSVFromFolder')
 		.addToUi();
 
@@ -27,10 +29,10 @@ function includesHeader(fileName) {
 }
 
 
-// function to import CSV data
+// function to import CSV data from file
 function importCSVFromFile(fileName) {
   
-	var file = DriveApp.getFilesByName('testing_csv_2.csv').next();
+	var file = DriveApp.getFilesByName(fileName).next(); 
 	var csvData = Utilities.parseCsv(file.getBlob().getDataAsString());
 
 	Logger.log(csvData);
