@@ -20,6 +20,7 @@ function onOpen() {
 	ui.createMenu('Import CSV data')
 		//.addItem('Import from file', 'importCSVFromFile')
 		.addItem('Import from folder', 'importCSVFromFolder')
+		.addItem('Import from Gmail', 'importCSVFromGmail')
 		.addToUi();
 
 }
@@ -77,8 +78,8 @@ function importCSVFromFolder() {
  */
 function importCSVFromGmail() {
 
-	// Example 1: csv files come from specific email address
-	var threads = GmailApp.search('from: benlcollins@gmail.com has:attachment');
+	// Example 1: from specific email address and has attachment
+	//var threads = GmailApp.search('from: benlcollins@gmail.com has:attachment');
 
 	// Example 1: csv files come from specific email address
 	var threads = GmailApp.search('from: benlcollins@gmail.com filename:*.csv');	
@@ -87,10 +88,29 @@ function importCSVFromGmail() {
 	//var threads = GmailApp.search('subject:CSV Test');
 
 	threads.forEach(function(thread) {
+		
 		var messageCount = thread.getMessageCount();
-		Logger.log(messageCount);
-	});
+		var messages = thread.getMessages();
 
+		messages.forEach(function(message) {
+			
+			var attachments = message.getAttachments();
+			
+			attachments.forEach(function(attachment) {
+				
+				// check if attachment is csv
+				if (attachment.getContentType() === 'text/csv') {
+					
+					var csvData = Utilities.parseCsv(attachment.getDataAsString());
+
+					// paste data into Google Sheet
+					var sheet = SpreadsheetApp.getActiveSheet();
+					var lastRow = sheet.getLastRow();
+					sheet.getRange(lastRow + 1,1,csvData.length, csvData[0].length).setValues(csvData);
+				}
+			});
+		});
+	});
 }
 
 
