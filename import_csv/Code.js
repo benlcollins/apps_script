@@ -11,7 +11,9 @@
  * what if there are two files with same name?
  */
 
-// add custom menu to run from Google Sheet UI
+/**
+ * add custom menu to run from Google Sheet UI
+ */
 function onOpen() {
 	var ui = SpreadsheetApp.getUi();
 	ui.createMenu('Import CSV data')
@@ -21,7 +23,9 @@ function onOpen() {
 
 }
 
-// main function to control 
+/**
+ * ask user if filename contains a header or not
+ */
 function includesHeader(fileName) {
 	var ui = SpreadsheetApp.getUi();
 	var response = ui.alert('Does the file ' + fileName + ' have a header row?',ui.ButtonSet.YES_NO);
@@ -29,7 +33,9 @@ function includesHeader(fileName) {
 }
 
 
-// function to import CSV data from file
+/**
+ * import CSV data from individual file
+ */
 function importCSVFromFile(fileName) {
   
 	var file = DriveApp.getFilesByName(fileName).next(); 
@@ -49,7 +55,9 @@ function importCSVFromFile(fileName) {
 }
 
 
-// generalized to extract csv data from any files in a Drive folder
+/**
+ * extract csv data from any files in a named Drive folder
+ */
 function importCSVFromFolder() {
 
 	var folder = DriveApp.getFoldersByName('CSV datasets').next();
