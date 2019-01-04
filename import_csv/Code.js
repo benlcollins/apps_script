@@ -9,6 +9,7 @@
  *
  * Other considerations:
  * what if there are two files with same name?
+ * what about xls or xlsx files?
  */
 
 /**
@@ -32,7 +33,6 @@ function includesHeader(fileName) {
 	return response;
 }
 
-
 /**
  * import CSV data from individual file
  */
@@ -41,19 +41,18 @@ function importCSVFromFile(fileName) {
 	var file = DriveApp.getFilesByName(fileName).next(); 
 	var csvData = Utilities.parseCsv(file.getBlob().getDataAsString());
 
-	Logger.log(csvData);
+	//Logger.log(csvData);
 
 	var headerRow = includesHeader(fileName);
 
 	if (headerRow == 'YES') { csvData.shift() };
 
+	// paste data into Google Sheet
 	var sheet = SpreadsheetApp.getActiveSheet();
 	var lastRow = sheet.getLastRow();
-
 	sheet.getRange(lastRow + 1,1,csvData.length, csvData[0].length).setValues(csvData);
 
 }
-
 
 /**
  * extract csv data from any files in a named Drive folder
@@ -73,7 +72,26 @@ function importCSVFromFolder() {
 
 }
 
+/**
+ * import csv data from gmail attachments
+ */
+function importCSVFromGmail() {
 
+	// Example 1: csv files come from specific email address
+	var threads = GmailApp.search('from: benlcollins@gmail.com has:attachment');
+
+	// Example 1: csv files come from specific email address
+	var threads = GmailApp.search('from: benlcollins@gmail.com filename:*.csv');	
+
+	// Example 2: csv files in email with specific subject line
+	//var threads = GmailApp.search('subject:CSV Test');
+
+	threads.forEach(function(thread) {
+		var messageCount = thread.getMessageCount();
+		Logger.log(messageCount);
+	});
+
+}
 
 
 
