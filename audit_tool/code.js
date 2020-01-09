@@ -27,9 +27,9 @@ function clearData() {
   
   sheet.getRange(6,2).clearContent();
   sheet.getRange(11,1,1,5).clear(); 
-  sheet.getRange(16,1,sheet.getLastRow(),10).clear();
+  sheet.getRange(16,1,sheet.getLastRow(),13).clear();
   sheet.getRange(10,1,1,5).setBorder(true, true, true, true, true, true, "#D3D3D3", null); 
-  sheet.getRange(15,1,1,10).setBorder(true, true, true, true, true, true, "#D3D3D3", null).setFontSize(14);  
+  sheet.getRange(15,1,1,13).setBorder(true, true, true, true, true, true, "#D3D3D3", null).setFontSize(14);  
 }
   
 
@@ -63,7 +63,7 @@ function sheetAuditor() {
       .setFontSize(14);
     
     // output the individual sheet data into my Google Sheet
-    var sheetRange = sheet.getRange(16,1,audit_data[1].length,10);
+    var sheetRange = sheet.getRange(16,1,audit_data[1].length,13);
     
     var sheetFormats = [
       [ "#,###,##0", "#,###,##0", "0.0%", "#,###,##0", "0.0%" ]
@@ -71,7 +71,7 @@ function sheetAuditor() {
     
     sheetRange.setValues(audit_data[1]);
     
-    var formatRange = sheet.getRange(16,1,audit_data[1].length,10);
+    var formatRange = sheet.getRange(16,1,audit_data[1].length,13);
     
     formatRange.setNumberFormat("#,###,##0")
       .setHorizontalAlignment("center")
@@ -173,7 +173,10 @@ function getSingleSheetInfo(sheet) {
     slowFuncs[1], 
     slowFuncs[2], 
     slowFuncs[3], 
-    slowFuncs[4]
+    slowFuncs[4],
+    slowFuncs[5],
+    slowFuncs[6],
+    slowFuncs[7]
   );
   
   return singleSheetArray;
@@ -182,11 +185,11 @@ function getSingleSheetInfo(sheet) {
 
 function slowFunctions(sheet) {
   
-  var vols = identifyVolatiles(sheet);
-  var arrs = identifyArrayFormulas(sheet);
-  vols.push(arrs);
+  var vols = identifyVolatiles(sheet);      //returns 7
+  var arrs = identifyArrayFormulas(sheet);  //returns 1
+  vols.push(arrs); 
   
-  return vols;
+  return vols;                              //returns 8
 }
 
 
@@ -206,10 +209,16 @@ function identifyVolatiles(sheet) {
   var todayCounter = 0;
   var randCounter = 0;
   var randbetweenCounter = 0;
+  var queryCounter = 0;  
+  var iferrorCounter = 0;
+  var indirectCounter = 0;
   var reNow = /.*NOW.*/;
   var reToday = /.*TODAY.*/;
   var reRand = /.*RAND.*/;
   var reRandbetween = /.*RANDBETWEEN.*/;
+  var reQuery = /.*QUERY.*/;
+  var reIfError = /.*IFERROR.*/;
+  var reInDirect = /.*INDIRECT.*/;
   
   if (data_counter !== 0) {
   
@@ -219,14 +228,19 @@ function identifyVolatiles(sheet) {
     formulaCells.forEach(function(row) {
       row.forEach(function(cell) {
         if (cell.toUpperCase().match(reNow)) { nowCounter ++; };
-        if (cell.toUpperCase().match(reToday)) { todayCounter++ };
-        if (cell.toUpperCase().match(reRand) && !cell.toUpperCase().match(reRandbetween)) { randCounter++ };
-        if (cell.toUpperCase().match(reRandbetween)) { randbetweenCounter++ }; 
+        if (cell.toUpperCase().match(reToday)) { todayCounter++; };
+        if (cell.toUpperCase().match(reRand) && !cell.toUpperCase().match(reRandbetween)) { randCounter++; };
+        if (cell.toUpperCase().match(reRandbetween)) { randbetweenCounter++; }; 
+        if (cell.toUpperCase().match(reQuery)) { 
+          queryCounter++;  //setting to its own line for breakpoint debugging
+        };   
+        if (cell.toUpperCase().match(reIfError)) { iferrorCounter++; };   
+        if (cell.toUpperCase().match(reInDirect)) { indirectCounter++; };   
       });
     });
   }
   
-  return [nowCounter, todayCounter, randCounter, randbetweenCounter];
+  return [nowCounter, todayCounter, randCounter, randbetweenCounter, queryCounter, iferrorCounter, indirectCounter];
   
 }
 
