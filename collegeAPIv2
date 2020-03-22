@@ -3,6 +3,7 @@
 
 /**
  * Adapted from/for Ben L Collins, https://www.benlcollins.com/
+ * updates for each with for per new v8 standard (if it's even necessary...)
  * Single function (not an improvement, but see below)
  * avoids separating page1 from later page calls
  * clears sheet prior to re-posting dsata
