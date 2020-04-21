@@ -212,13 +212,13 @@ function identifyVolatiles(sheet) {
   var queryCounter = 0;  
   var iferrorCounter = 0;
   var indirectCounter = 0;
-  var reNow = /.*NOW.*/;
-  var reToday = /.*TODAY.*/;
-  var reRand = /.*RAND.*/;
-  var reRandbetween = /.*RANDBETWEEN.*/;
-  var reQuery = /.*QUERY.*/;
-  var reIfError = /.*IFERROR.*/;
-  var reInDirect = /.*INDIRECT.*/;
+  var reNow = /.*NOW\(.*/;
+  var reToday = /.*TODAY\(.*/;
+  var reRand = /.*RAND\(.*/;
+  var reRandbetween = /.*RANDBETWEEN\(.*/;
+  var reQuery = /.*QUERY\(.*/;
+  var reIfError = /.*IFERROR\(.*/;
+  var reInDirect = /.*INDIRECT\(.*/;
   
   if (data_counter !== 0) {
   
