@@ -1,10 +1,7 @@
-/**
- * save new row of alexa data
- */
 function saveAlexaData() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const dataSheet = ss.getSheetByName("alexa_rankings");
-  const settingsSheet = ss.getSheetByName("settings");
+  const dataSheet = ss.getSheetByName('alexa_rank');
+  const settingsSheet = ss.getSheetByName('settings');
   
   // get the url, follower count and date from the first three cells
   const d = new Date();
@@ -12,12 +9,8 @@ function saveAlexaData() {
   const us_count = settingsSheet.getRange(11,3).getValue();
   
   // append new ranking data to Sheet
-  dataSheet.appendRow([
-    d,
-    global_count,
-    us_count
-  ]);
+  dataSheet.appendRow([d,global_count,us_count]);
 
   // format date string cell
-  dataSheet.getRange(dataSheet.getLastRow(),1).setNumberFormat("MMM-YY");
+  dataSheet.getRange(dataSheet.getLastRow(),1).setNumberFormat('MMM-YY');
 }
