@@ -7,13 +7,14 @@ function saveAlexaData() {
   const settingsSheet = ss.getSheetByName("settings");
   
   // get the url, follower count and date from the first three cells
-  const timestamp = new Date();
+  const d = new Date();
+  const datestring = (d.getMonth()+1) + "/" + d.getDate()  + "/" + d.getFullYear();
   const global_count = settingsSheet.getRange(11,2).getValue();
   const us_count = settingsSheet.getRange(11,3).getValue();
   
   // append new ranking data to Sheet
   dataSheet.appendRow([
-    timestamp.toDateString(),
+    datestring,
     global_count,
     us_count
   ]);
