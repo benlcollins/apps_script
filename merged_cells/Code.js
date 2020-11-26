@@ -23,3 +23,9 @@ function highlightMergedCells() {
   });
 
 }
+
+
+// un-highlight merged cells in sheet
+function unhighlightMergedCells() {
+  // TBC
+}
