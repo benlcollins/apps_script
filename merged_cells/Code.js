@@ -27,5 +27,15 @@ function highlightMergedCells() {
 
 // un-highlight merged cells in sheet
 function unhighlightMergedCells() {
-  // TBC
+  
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getSheetByName('Sheet1');
+
+  const range = sheet.getRange(1,1,sheet.getMaxRows(),sheet.getMaxColumns());
+  const mergedRanges = range.getMergedRanges();
+  
+  mergedRanges.forEach(rng => {
+    rng.setBackground('white');
+  });
+  
 }
