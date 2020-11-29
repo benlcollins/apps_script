@@ -60,6 +60,16 @@ function findFrozenRowsColumnsInSheet(sheet) {
 
 function removeAllFrozenRowsColumns() {
 
-  
+  // get array of Sheets
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheets = ss.getSheets();
+
+  // find merged cells in each
+  sheets.forEach(sheet => {
+
+    sheet.setFrozenRows(0);
+    sheet.setFrozenColumns(0);
+
+  });
 
 }
