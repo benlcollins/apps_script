@@ -4,6 +4,10 @@
 * https://www.benlcollins.com
 */
 
+/**
+ * Google Sheets Max Cell Limit in Single Workbook
+ */
+const CELL_LIMIT = 10000000;
 
 /**
 * Custom menu
@@ -15,7 +19,6 @@ function onOpen() {
       .addItem('Clear Data', 'clearData')
       .addToUi();
 }
-
 
 /**
 * Clears out data and resets sheet
@@ -32,7 +35,6 @@ function clearData() {
   sheet.getRange(15,1,1,13).setBorder(true, true, true, true, true, true, "#D3D3D3", null).setFontSize(14);  
 }
   
-
 /**
 * Audits the given url and prints results into the Google Sheet table
 */
@@ -83,7 +85,6 @@ function sheetAuditor() {
   }
 }
 
-
 /**
 * Returns performance and size data for a given sheet url
 * @param {string} url - url of the Google Sheet
@@ -114,15 +115,14 @@ function auditUrl(url) {
     sheetsArray.push(thisSheetInfo);
   });
   
-  var totalCellPercent = totalCellCounter / 5000000;
-  var totalDataCellPercent = totalDataCellCounter / 5000000;
+  var totalCellPercent = totalCellCounter / CELL_LIMIT;
+  var totalDataCellPercent = totalDataCellCounter / CELL_LIMIT;
   
   fileArray.push(numSheets, totalCellCounter, totalCellPercent, totalDataCellCounter, totalDataCellPercent);
   
   return [fileArray,sheetsArray];
  
 }
-
 
 /**
 * Returns individual sheet performance and size data
@@ -192,7 +192,6 @@ function slowFunctions(sheet) {
   return vols;                              //returns 8
 }
 
-
 /**
 * Returns counts for volatile functions in individual Google Sheet
 * @param {object} sheet - the individual sheet within a Google Sheet
@@ -243,7 +242,6 @@ function identifyVolatiles(sheet) {
   return [nowCounter, todayCounter, randCounter, randbetweenCounter, queryCounter, iferrorCounter, indirectCounter];
   
 }
-
 
 /**
 * Returns counts for ArrayFormula functions in individual Google Sheet
