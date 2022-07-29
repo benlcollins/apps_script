@@ -21,7 +21,7 @@ function doPost(e) {
     // append new row of data to Sheet
     sheet.appendRow([d, section, name, link]);
     
-    // return blank
+    // return undefined
     return;
   }
 }
