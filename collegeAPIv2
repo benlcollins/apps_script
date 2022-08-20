@@ -1,0 +1,101 @@
+// Also at this location, but I wasn't sure how to push to this repository...
+// https://github.com/dday76/gsWork/blob/master/collegeAPIv2
+
+/**
+ * Adapted from/for Ben L Collins, https://www.benlcollins.com/
+ * updates for each with for per new v8 standard (if it's even necessary...)
+ * Single function (not an improvement, but see below)
+ * avoids separating page1 from later page calls
+ * clears sheet prior to re-posting dsata
+ * handles 0-row and 1-row instances
+ * skips full API call/creation for errors
+ * returns error codes to sheet if applicable
+ * DOES NOT handle errors specifcially; just returns the code
+ * DOES NOT handle pulling attributes outside of the example case (url/data elements are hardcoded)
+ */
+function doAPI() {
+
+
+
+var API_KEY = '4fdcWyaPRMcsqyAlktRGYNRVRC3CwWk9FcOxDRB5';
+
+/**
+ * function to call the Open Data Maker API
+ */
+function doAPI() {
+
+/**
+ * function to call the Open Data Maker API
+ */
+  
+  // setup the api query
+  var root = 'https://api.data.gov/';
+  var endpoint = 'ed/collegescorecard/v1/schools.json';
+  var query = '?school.city=new%20york&_fields=id,school.name,latest.student.size,latest.cost.tuition.in_state,latest.cost.tuition.out_of_state';
+    
+  var url = root + endpoint + query;
+  
+  // advanced parameters for url fetch app
+  // only one of many params
+  var params = {
+    muteHttpExceptions: true
+  };
+  
+  // call and parse data
+  var textAPI = UrlFetchApp.fetch(url + '&api_key=' + API_KEY, params);
+  var jsonAPI = JSON.parse(textAPI.getContentText());
+  
+
+  // create empty array to hold college data
+  var sheetsAPI = [];
+  
+  switch(textAPI.getResponseCode()) {
+
+    case 200:
+
+    // process the data if valid = response 200
+      
+    // get number of loops
+    // metadata{total,per_page,page}
+    var loops = Math.ceil(jsonAPI.metadata.total / jsonAPI.metadata.per_page);
+
+    for (var i=1;i<=loops;i++) {
+
+    // loop over the results array
+      for (var row in jsonAPI.results) {
+
+        // get the data elements
+        var id = jsonAPI.results[row]['id'];
+        var name = jsonAPI.results[row]['school.name']; // cannot use dot notation, so use square bracket notation instead
+        var size = jsonAPI.results[row]['latest.student.size'];
+        var inStateTuition = jsonAPI.results[row]['latest.cost.tuition.in_state'];
+        var outOfStateTuition = jsonAPI.results[row]['latest.cost.tuition.out_of_state'];
+      
+        // put the data elements into double array for Sheets
+        sheetsAPI.push([id, name, size, inStateTuition, outOfStateTuition]);
+        // continues to add to previous array in later loops
+        // allCollegeData = allCollegeData.concat(nextBatch);
+        
+      } // for results
+      
+    } // for loops
+    
+      break;
+    default: 
+      // process the error message
+      sheetsAPI.push(['Error code: ',textAPI.getResponseCode()]);
+      sheetsAPI.push(['***','***']);
+  }
+      
+  // paste the data into our Sheet
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sh = ss.getActiveSheet();
+  
+  // handle no data returned or only one row returned
+  sheetsAPI.length == 0 ? sheetsAPI = [['***','no data returned'],['***','***']] : null;
+  sheetsAPI.length == 1 ? sheetsAPI.push(['end of data','***','***','***','***']) : null;
+
+  sh.getRange(2,1,sh.getLastRow(),sh.getLastColumn()).clearContent(); // start fresh
+  sh.getRange(2, 1, sheetsAPI.length, sheetsAPI[0].length).setValues(sheetsAPI); // add new
+  
+}
